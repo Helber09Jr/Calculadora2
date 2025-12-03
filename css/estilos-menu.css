@@ -18,8 +18,8 @@
   width: 50px;
   height: 50px;
   margin: 0 auto 20px;
-  border: 4px solid #e5e7eb;
-  border-top-color: var(--azul-principal);
+  border: 4px solid var(--gris-medio);
+  border-top-color: var(--azul-oscuro);
   border-radius: 50%;
   animation: girar 1s linear infinite;
 }
@@ -31,7 +31,7 @@
 }
 
 .cargando p {
-  color: var(--gris-texto);
+  color: #495057;
   font-size: 1.1em;
 }
 
@@ -43,6 +43,7 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid var(--rojo-error);
 }
 
 .mensaje-error h3 {
@@ -52,7 +53,7 @@
 }
 
 .mensaje-error p {
-  color: var(--gris-texto);
+  color: #495057;
 }
 
 /* --- MENU DINAMICO --- */
@@ -68,29 +69,32 @@
 .bloque-unidad {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: box-shadow 0.3s;
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--dorado);
 }
 
 .bloque-unidad:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 40, 85, 0.15);
+  transform: translateY(-2px);
 }
 
 .titulo-unidad {
-  background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-claro) 100%);
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
   color: white;
   padding: 20px 30px;
   margin: 0;
   font-size: 1.5em;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
   position: relative;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .titulo-unidad:hover {
-  background: linear-gradient(135deg, #0d5a8a 0%, #11c4c2 100%);
+  background: linear-gradient(135deg, #003366 0%, #0055aa 100%);
 }
 
 .titulo-unidad:after {
@@ -98,6 +102,7 @@
   position: absolute;
   right: 30px;
   transition: transform 0.3s;
+  font-size: 0.8em;
 }
 
 .bloque-unidad.unidad-activa .titulo-unidad:after {
@@ -124,41 +129,59 @@
 /* --- TARJETA --- */
 
 .tarjeta {
-  background: var(--gris-claro);
+  background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: all 0.3s ease;
   border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tarjeta:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: var(--azul-claro);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 40, 85, 0.2);
+  border-color: var(--dorado);
 }
 
 .imagen-tarjeta {
   width: 100%;
   height: 200px;
   overflow: hidden;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.imagen-tarjeta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(0, 40, 85, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tarjeta:hover .imagen-tarjeta::before {
+  opacity: 1;
 }
 
 .imagen-tarjeta img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .tarjeta:hover .imagen-tarjeta img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .contenido-tarjeta {
@@ -169,14 +192,19 @@
 }
 
 .contenido-tarjeta h3 {
-  color: var(--azul-principal);
+  color: var(--azul-oscuro);
   font-size: 1.2em;
   margin-bottom: 10px;
-  font-weight: 600;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.tarjeta:hover .contenido-tarjeta h3 {
+  color: var(--dorado);
 }
 
 .contenido-tarjeta p {
-  color: var(--gris-texto);
+  color: #495057;
   line-height: 1.6;
   font-size: 0.95em;
   flex: 1;
