@@ -1,0 +1,187 @@
+/* --- VARIABLES CSS --- */
+
+:root {
+  --azul-principal: #0b4a6f;
+  --azul-claro: #0ea5a4;
+  --verde-exito: #10b981;
+  --rojo-error: #ef4444;
+  --amarillo-advertencia: #f59e0b;
+  --gris-claro: #f8fafc;
+  --gris-texto: #64748b;
+  --texto-principal: #0f172a;
+}
+
+/* --- RESET Y BASE --- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--texto-principal);
+  background: var(--gris-claro);
+  line-height: 1.6;
+}
+
+/* --- HEADER --- */
+
+.encabezado-principal {
+  background: var(--azul-principal);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.barra-superior {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.contenedor-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+}
+
+.info-universidad h1 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.info-universidad h2 {
+  font-size: 0.95em;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.contenedor-titulo {
+  text-align: right;
+}
+
+.titulo-proyecto {
+  font-size: 1.5em;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* --- NAVEGACION --- */
+
+.menu-navegacion {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.menu-navegacion ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.menu-navegacion li {
+  margin: 0;
+}
+
+.menu-navegacion a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 12px 25px;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+
+.menu-navegacion a:hover {
+  background: var(--azul-claro);
+}
+
+.boton-menu {
+  display: none;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  font-size: 1.5em;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* --- FOOTER --- */
+
+.pie-pagina {
+  background: var(--azul-principal);
+  color: white;
+  margin-top: 40px;
+  padding: 20px 0;
+}
+
+.contenedor-pie {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info-izquierda,
+.info-derecha {
+  flex: 1;
+  min-width: 250px;
+}
+
+.item-footer {
+  margin: 8px 0;
+  font-size: 0.95em;
+  opacity: 0.95;
+}
+
+.creditos {
+  text-align: center;
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 15px;
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+/* --- UTILIDADES --- */
+
+.oculto {
+  display: none !important;
+}
+
+/* --- INPUTS GLOBALES --- */
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
