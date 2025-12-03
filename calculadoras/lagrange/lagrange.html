@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interpolación de Lagrange - ESIS</title>
+
+  <!-- Librerías CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="lagrange.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="encabezado-principal">
+  <div class="barra-superior">
+    <div class="contenedor-logo">
+      <img src="../../imagenes/logo-esis.png" alt="Logo ESIS" class="logo">
+      <div class="info-universidad">
+        <h1>UNIVERSIDAD NACIONAL JORGE BASADRE GROHMANN</h1>
+        <h2>Escuela Profesional de Ingeniería en Sistemas e Informática</h2>
+      </div>
+    </div>
+    <div class="contenedor-titulo">
+      <h2 class="titulo-proyecto">INTERPOLACIÓN DE LAGRANGE</h2>
+    </div>
+  </div>
+  <nav class="menu-navegacion" id="menuNavegacion">
+    <ul>
+      <li><a href="../../index.html">Inicio</a></li>
+      <li><a href="../../menu.html">Calculadoras</a></li>
+      <li><a href="../../index.html#sobre">Sobre el Proyecto</a></li>
+      <li><a href="../../index.html#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+  <button class="boton-menu" id="botonMenu">=</button>
+</header>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="contenedor-aplicacion">
+
+  <!-- PANEL IZQUIERDO: CONTROLES -->
+  <aside class="panel-controles">
+
+    <!-- Sección Título -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Experimento</h3>
+      <label>Título</label>
+      <input type="text" id="tituloExperimento" placeholder="Ej: Enfriamiento de un líquido">
+    </section>
+
+    <!-- Sección Etiquetas de Ejes -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Etiquetas de Ejes</h3>
+      <label>Eje X (horizontal)</label>
+      <input type="text" id="nombreEjeX" placeholder="Ej: Tiempo (min)" value="x">
+      <label>Eje Y (vertical)</label>
+      <input type="text" id="nombreEjeY" placeholder="Ej: Temperatura (°C)" value="y">
+    </section>
+
+    <!-- Sección Puntos de Datos -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Puntos de Datos</h3>
+      <div class="contenedor-tabla">
+        <table id="tablaPuntos">
+          <thead>
+            <tr>
+              <th>i</th>
+              <th id="encabezadoX">x</th>
+              <th id="encabezadoY">y</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cuerpoTablaPuntos">
+            <!-- Filas dinámicas -->
+          </tbody>
+        </table>
+      </div>
+      <div class="controles-tabla">
+        <button id="btnAgregarFila" class="boton-primario">+ Agregar Fila</button>
+        <button id="btnPegar" class="boton-secundario">Pegar</button>
+        <label class="boton-secundario boton-archivo">
+          Importar
+          <input type="file" id="inputImportar" accept=".csv,.xlsx,.xls" hidden>
+        </label>
+      </div>
+    </section>
+
+    <!-- Sección Evaluación -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Evaluación</h3>
+      <label>Evaluar en x =</label>
+      <input type="number" id="inputXEvaluar" step="any" value="3">
+      <button id="btnCalcular" class="boton-primario boton-calcular">Calcular</button>
+      <div class="grupo-botones-ejemplo">
+        <button id="btnEjemplo1" class="boton-secundario">Ejemplo Básico</button>
+        <button id="btnEjemplo2" class="boton-secundario">Ejemplo Contextual</button>
+      </div>
+    </section>
+
+    <!-- Sección Opciones -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Opciones</h3>
+      <label>Formato de decimales</label>
+      <select id="selectFormato">
+        <option value="2">2 decimales</option>
+        <option value="3">3 decimales</option>
+        <option value="4">4 decimales</option>
+        <option value="auto">Enteros si es posible</option>
+      </select>
+    </section>
+
+    <!-- Sección Exportar -->
+    <section class="seccion-panel">
+      <h3 class="titulo-seccion">Exportar</h3>
+      <button id="btnExportarPNG" class="boton-secundario">Imagen PNG</button>
+      <button id="btnExportarCSV" class="boton-secundario">Archivo CSV</button>
+      <button id="btnExportarPDF" class="boton-secundario">Documento PDF</button>
+    </section>
+
+  </aside>
+
+  <!-- PANEL DERECHO: RESULTADOS -->
+  <main class="panel-resultados">
+
+    <!-- Gráfico -->
+    <section class="tarjeta-resultado">
+      <h3>Gráfico Interactivo</h3>
+      <div id="graficoLagrange"></div>
+    </section>
+
+    <!-- Tabla de Resultados -->
+    <section class="tarjeta-resultado">
+      <div class="encabezado-tarjeta">
+        <h3>Resultado</h3>
+        <button id="btnTogglePasos" class="boton-toggle">Ver Desarrollo</button>
+      </div>
+      <div id="contenedorResultado"></div>
+    </section>
+
+    <!-- Desarrollo Paso a Paso (colapsable) -->
+    <section id="seccionDesarrollo" class="tarjeta-resultado oculto">
+      <h3>Desarrollo Paso a Paso</h3>
+      <div id="contenedorDesarrollo"></div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="pie-pagina">
+  <div class="contenedor-pie">
+    <div class="info-izquierda">
+      <p class="item-footer"><strong>Curso:</strong> Modelado Computacional para Ingeniería</p>
+      <p class="item-footer"><strong>Docente:</strong> MSc. Ing. Jorge R. Chambilla Araca</p>
+    </div>
+    <div class="info-derecha">
+      <p class="item-footer"><strong>Desarrollado por:</strong> Helber Junior Lope | Elvis Ronald Arocutipa | Oscar Fabián Choque</p>
+    </div>
+  </div>
+  <div class="creditos">
+    <p>&copy; ESIS 2025 Universidad Nacional Jorge Basadre Grohmann - Tacna</p>
+  </div>
+</footer>
+
+<!-- Contenedor de notificaciones Toast -->
+<div id="contenedorNotificaciones"></div>
+
+<script src="lagrange.js"></script>
+
+</body>
+</html>
