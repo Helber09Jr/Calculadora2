@@ -390,62 +390,94 @@ td input.campo-invalido {
 }
 
 .paso-desarrollo {
-  margin-bottom: 25px;
-  padding: 15px;
-  background: #f8f9fa;
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background: white;
   border-left: 4px solid var(--amarillo-esis);
   border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 40, 85, 0.08);
 }
 
 .paso-desarrollo h4 {
   color: var(--azul-primario);
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 1.1em;
+  margin: 0 0 12px 0;
+  font-size: 1.05em;
   font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.paso-desarrollo p {
+  margin: 8px 0;
+  line-height: 1.6;
 }
 
 .tabla-desarrollo {
   width: 100%;
   border-collapse: collapse;
-  margin: 15px 0;
-  font-size: 0.95em;
+  margin: 12px 0;
+  font-size: 0.93em;
 }
 
 .tabla-desarrollo th,
 .tabla-desarrollo td {
-  padding: 10px;
-  border: 1px solid var(--gris-borde);
+  padding: 8px 10px;
+  border: 1px solid #dee2e6;
   text-align: center;
 }
 
 .tabla-desarrollo thead {
-  background: #e9ecef;
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+}
+
+.tabla-desarrollo th {
+  font-weight: 700;
+  color: var(--azul-primario);
 }
 
 .calculo-li {
-  margin: 15px 0;
-  padding: 15px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid var(--gris-borde);
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: #fafbfc;
+  border-radius: 5px;
+  border: 1px solid #e5e7eb;
 }
 
 .latex-formula {
-  margin: 10px 0;
+  margin: 8px 0;
   overflow-x: auto;
 }
 
 .resultado-final {
-  font-size: 1.2em;
-  font-weight: 700;
-  color: #10b981;
-  text-align: center;
-  padding: 15px;
+  font-size: 1.15em;
+  font-weight: 800;
+  color: var(--azul-primario);
+  padding: 14px 18px;
   background: #f0fdf4;
   border-radius: 6px;
-  margin-top: 15px;
-  border: 2px solid #10b981;
+  margin-top: 18px;
+  border-left: 5px solid #10b981;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.12);
+}
+
+.resultado-final strong {
+  color: var(--azul-primario);
+  font-size: 1em;
+}
+
+.resultado-final p {
+  margin: 0;
+}
+
+#contenedorDesarrollo {
+  padding: 4px 0;
+}
+
+#contenedorDesarrollo > .paso-desarrollo:first-child {
+  margin-top: 0;
+}
+
+#contenedorDesarrollo > .paso-desarrollo:last-child {
+  margin-bottom: 0;
 }
 
 .contenedor-tabla::-webkit-scrollbar,
