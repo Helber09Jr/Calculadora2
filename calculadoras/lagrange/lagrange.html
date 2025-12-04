@@ -7,8 +7,6 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <link rel="stylesheet" href="../../css/estilos.css">
 <link rel="stylesheet" href="../../css/responsive.css">
@@ -84,12 +82,7 @@
       <div class="controles-tabla">
         <button class="boton-esis" id="btnAgregarFila">+ Agregar fila</button>
         <button class="boton-esis secundario" id="btnPegar">Pegar</button>
-        <label class="boton-esis secundario boton-archivo">
-          Importar
-          <input type="file" id="inputImportar" accept=".csv,.xlsx,.xls" style="display:none">
-        </label>
-      </div>
-    </div>
+      </div>    </div>
 
     <div class="seccion-panel">
       <div class="titulo-seccion">Evaluación</div>
@@ -126,9 +119,7 @@
           <div class="texto-pequeno-gris">Usa el mouse para hacer zoom. Puntos (rojo), Polinomio (azul), Evaluación (verde)</div>
         </div>
         <div class="acciones-grafico">
-          <button class="icono-accion" id="btnExportarPNG" title="Exportar PNG">PNG</button>
-          <button class="icono-accion" id="btnExportarCSV" title="Exportar CSV">CSV</button>
-          <button class="icono-accion" id="btnExportarPDF" title="Exportar PDF">PDF</button>
+          <button class="icono-accion" id="btnExportarPNG" title="Exportar PNG">📷 PNG</button>
         </div>
       </div>
       <div id="graficoLagrange"></div>
@@ -160,15 +151,15 @@
 <footer class="pie-pagina">
   <div class="contenedor-pie">
     <div class="info-izquierda">
-      <p class="item-footer" data-tooltip="Asignatura actual">
+      <p class="item-footer">
         <strong>Curso:</strong> Modelado Computacional para Ingeniería
       </p>
-      <p class="item-footer" data-tooltip="Docente a cargo">
+      <p class="item-footer">
         <strong>Docente:</strong> MSc. Ing. Jorge R. Chambilla Araca
       </p>
     </div>
     <div class="info-derecha">
-      <p class="item-footer" data-tooltip="Equipo desarrollador">
+      <p class="item-footer">
         <strong>Desarrollado por:</strong> Helber Junior Lope | Elvis Ronald Arocutipa | Oscar Fabián Choque
       </p>
     </div>
@@ -177,8 +168,6 @@
     <p>&copy; ESIS 2025 Universidad Nacional Jorge Basadre Grohmann - Tacna</p>
   </div>
 </footer>
-
-<div id="contenedorNotificaciones" class="contenedor-notificaciones"></div>
 
 <script src="lagrange.js"></script>
 
