@@ -386,7 +386,12 @@ const App = {
     });
 
     latex += '$$</p>';
-    latex += `<p class="resultado-final">$$P(${this.formatear(r.xEval)}) = ${this.formatear(r.resultado)}$$</p>`;
+    latex += `
+      <div class="resultado-final">
+        <strong style="display: block; margin-bottom: 8px; font-size: 0.95em;">Resultado Final:</strong>
+        <p style="margin: 0;">$$P(${this.formatear(r.xEval)}) = ${this.formatear(r.resultado)}$$</p>
+      </div>
+    `;
     latex += `</div>`;
 
     document.getElementById('contenedorDesarrollo').innerHTML = latex;
