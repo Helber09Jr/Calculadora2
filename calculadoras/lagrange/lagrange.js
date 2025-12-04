@@ -341,16 +341,12 @@ const App = {
       </div>
 
       <div class="paso-desarrollo">
-        <h4>Paso 3: Cálculo de cada L<sub>i</sub>(${this.formatear(r.xEval)})</h4>
+        <h4>Paso 3: Cálculo de Coeficientes L<sub>i</sub>(${this.formatear(r.xEval)})</h4>
     `;
 
     r.contribuciones.forEach(c => {
-      latex += `
-        <div class="calculo-li">
-          <p><strong>L<sub>${c.i}</sub>(${this.formatear(r.xEval)}):</strong></p>
-          <p class="latex-formula">$$L_{${c.i}}(${this.formatear(r.xEval)}) = `;
+      latex += `<p class="linea-calculo">$$L_{${c.i}}(${this.formatear(r.xEval)}) = \\frac{`;
 
-      latex += '\\frac{';
       c.factoresNum.forEach((f, idx) => {
         if (idx > 0) latex += ' \\cdot ';
         latex += `(${this.formatear(r.xEval)} - ${this.formatear(f.xj)})`;
@@ -360,10 +356,8 @@ const App = {
         if (idx > 0) latex += ' \\cdot ';
         latex += `(${this.formatear(c.xi)} - ${this.formatear(f.xj)})`;
       });
-      latex += '}$$</p>';
 
-      latex += `<p class="latex-formula">$$= \\frac{${this.formatear(c.numerador)}}{${this.formatear(c.denominador)}} = ${this.formatear(c.Li)}$$</p>`;
-      latex += `</div>`;
+      latex += `} = \\frac{${this.formatear(c.numerador)}}{${this.formatear(c.denominador)}} = ${this.formatear(c.Li)}$$</p>`;
     });
 
     latex += `</div>`;
@@ -371,28 +365,21 @@ const App = {
     latex += `
       <div class="paso-desarrollo">
         <h4>Paso 4: Suma de Contribuciones</h4>
-        <p>$$P(${this.formatear(r.xEval)}) = `;
+        <p>$$P(${this.formatear(r.xEval)}) = \\sum_{i=0}^{${r.contribuciones.length - 1}} y_i L_i(${this.formatear(r.xEval)})$$</p>
+    `;
 
-    r.contribuciones.forEach((c, i) => {
-      if (i > 0) latex += ' + ';
-      latex += `${this.formatear(c.yi)} \\cdot ${this.formatear(c.Li)}`;
+    r.contribuciones.forEach(c => {
+      latex += `<p class="linea-calculo">$$y_{${c.i}} \\cdot L_{${c.i}}(${this.formatear(r.xEval)}) = ${this.formatear(c.yi)} \\times ${this.formatear(c.Li)} = ${this.formatear(c.contribucion)}$$</p>`;
     });
 
-    latex += '$$</p><p>$$= ';
+    latex += `</div>`;
 
-    r.contribuciones.forEach((c, i) => {
-      if (i > 0) latex += ' + ';
-      latex += this.formatear(c.contribucion);
-    });
-
-    latex += '$$</p>';
     latex += `
       <div class="resultado-final">
-        <strong style="display: block; margin-bottom: 8px; font-size: 0.95em;">Resultado Final:</strong>
-        <p style="margin: 0;">$$P(${this.formatear(r.xEval)}) = ${this.formatear(r.resultado)}$$</p>
+        <strong>Resultado Final:</strong>
+        <p>$$P(${this.formatear(r.xEval)}) = ${this.formatear(r.resultado)}$$</p>
       </div>
     `;
-    latex += `</div>`;
 
     document.getElementById('contenedorDesarrollo').innerHTML = latex;
 
