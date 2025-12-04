@@ -5,7 +5,6 @@ const App = {
   },
 
   iniciar() {
-    this.cargarEstado();
     this.renderizarTabla();
     this.actualizarEncabezados();
     this.vincularEventos();
@@ -13,28 +12,15 @@ const App = {
 
   vincularEventos() {
     document.getElementById('btnAgregarFila').onclick = () => this.agregarFila();
-    document.getElementById('btnPegar').onclick = () => this.pegarDesdePortapapeles();
+    document.getElementById('btnLimpiarTodo').onclick = () => this.limpiarTodo();
     document.getElementById('btnCalcular').onclick = () => this.calcular();
-    document.getElementById('btnEjemplo1').onclick = () => this.cargarEjemplo1();
-    document.getElementById('btnEjemplo2').onclick = () => this.cargarEjemplo2();
+    document.getElementById('btnEjemplo').onclick = () => this.cargarEjemplo();
     document.getElementById('btnTogglePasos').onclick = () => this.alternarPasos();
-    document.getElementById('btnExportarPNG').onclick = () => this.exportarPNG();
     document.getElementById('botonMenu').onclick = () => this.alternarMenu();
 
-    document.getElementById('nombreEjeX').oninput = () => {
-      this.actualizarEncabezados();
-      this.guardarEstado();
-    };
-
-    document.getElementById('nombreEjeY').oninput = () => {
-      this.actualizarEncabezados();
-      this.guardarEstado();
-    };
-
-    document.getElementById('tituloExperimento').oninput = () => this.guardarEstado();
-    document.getElementById('inputXEvaluar').oninput = () => this.guardarEstado();
+    document.getElementById('nombreEjeX').oninput = () => this.actualizarEncabezados();
+    document.getElementById('nombreEjeY').oninput = () => this.actualizarEncabezados();
     document.getElementById('selectFormato').onchange = () => {
-      this.guardarEstado();
       if (this.estado.resultado) {
         this.mostrarResultado();
       }
@@ -57,18 +43,10 @@ const App = {
       fila.remove();
       this.renumerarFilas();
       this.leerPuntos();
-      this.guardarEstado();
     };
 
-    fila.querySelector('.input-x').oninput = () => {
-      this.leerPuntos();
-      this.guardarEstado();
-    };
-
-    fila.querySelector('.input-y').oninput = () => {
-      this.leerPuntos();
-      this.guardarEstado();
-    };
+    fila.querySelector('.input-x').oninput = () => this.leerPuntos();
+    fila.querySelector('.input-y').oninput = () => this.leerPuntos();
 
     tbody.appendChild(fila);
     this.leerPuntos();
@@ -121,39 +99,32 @@ const App = {
     document.querySelector('.encabezado-y').textContent = nombreY;
   },
 
-  async pegarDesdePortapapeles() {
-    try {
-      const texto = await navigator.clipboard.readText();
-      const lineas = texto.trim().split('\n');
-
-      const tbody = document.getElementById('cuerpoTablaPuntos');
-      tbody.innerHTML = '';
-      let agregadas = 0;
-
-      lineas.forEach(linea => {
-        const valores = linea.trim().split(/[\s,\t]+/);
-        if (valores.length >= 2) {
-          const x = parseFloat(valores[0]);
-          const y = parseFloat(valores[1]);
-          if (!isNaN(x) && !isNaN(y)) {
-            this.agregarFila(x, y);
-            agregadas++;
-          }
-        }
-      });
-
-      if (agregadas > 0) {
-        alert(`✓ ${agregadas} puntos importados correctamente`);
-      } else {
-        alert('⚠ No se encontraron datos válidos en el portapapeles');
-      }
-    } catch (error) {
-      alert('✗ No se pudo acceder al portapapeles');
+  limpiarTodo() {
+    if (confirm('¿Estás seguro de limpiar todos los datos?')) {
+      this.estado.puntos = [];
+      this.estado.resultado = null;
+      this.renderizarTabla();
+      document.getElementById('contenedorResultado').innerHTML = '';
+      document.getElementById('contenedorDesarrollo').innerHTML = '';
+      document.getElementById('graficoLagrange').innerHTML = '';
+      document.getElementById('tituloExperimento').value = '';
+      document.getElementById('nombreEjeX').value = 'x';
+      document.getElementById('nombreEjeY').value = 'y';
+      document.getElementById('inputXEvaluar').value = '3';
+      this.actualizarEncabezados();
+      alert('✓ Todos los datos han sido limpiados');
     }
+  },
+
+  quitarValidacionVisual() {
+    document.querySelectorAll('.input-x, .input-y').forEach(input => {
+      input.classList.remove('campo-invalido');
+    });
   },
 
   validar() {
     this.leerPuntos();
+    this.quitarValidacionVisual();
 
     const puntosValidos = this.estado.puntos.filter(p =>
       p.x !== null && !isNaN(p.x) && p.y !== null && !isNaN(p.y)
@@ -164,11 +135,29 @@ const App = {
     }
 
     const valoresX = puntosValidos.map(p => p.x);
-    const duplicados = valoresX.filter((x, i) => valoresX.indexOf(x) !== i);
+    const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
 
-    if (duplicados.length > 0) {
-      throw new Error(`Valores X duplicados: ${duplicados.join(', ')}`);
-    }
+    filas.forEach((fila, i) => {
+      const inputX = fila.querySelector('.input-x');
+      const inputY = fila.querySelector('.input-y');
+      const punto = this.estado.puntos[i];
+
+      if (!punto) return;
+
+      if (punto.x === null || isNaN(punto.x)) {
+        inputX.classList.add('campo-invalido');
+      }
+
+      if (punto.y === null || isNaN(punto.y)) {
+        inputY.classList.add('campo-invalido');
+      }
+
+      const duplicados = valoresX.filter(x => x === punto.x).length > 1;
+      if (duplicados && !isNaN(punto.x) && punto.x !== null) {
+        inputX.classList.add('campo-invalido');
+        throw new Error(`Valor X duplicado: ${punto.x}`);
+      }
+    });
 
     return puntosValidos;
   },
@@ -236,7 +225,6 @@ const App = {
       this.mostrarResultado();
       this.mostrarDesarrollo();
       this.graficar();
-      this.guardarEstado();
 
       alert(`✓ Interpolación calculada: P(${xEval}) = ${this.formatear(resultado)}`);
 
@@ -480,22 +468,6 @@ const App = {
     Plotly.newPlot('graficoLagrange', [traza1, traza2, traza3], layout, config);
   },
 
-  exportarPNG() {
-    if (!this.estado.resultado) {
-      alert('⚠ Primero debe calcular la interpolación');
-      return;
-    }
-
-    Plotly.downloadImage('graficoLagrange', {
-      format: 'png',
-      width: 1200,
-      height: 800,
-      filename: 'lagrange_grafico'
-    });
-
-    alert('✓ Gráfico exportado como PNG');
-  },
-
   alternarPasos() {
     if (!this.estado.resultado) {
       alert('⚠ Primero calcula la interpolación');
@@ -521,26 +493,7 @@ const App = {
     menu.classList.toggle('menu-activo');
   },
 
-  cargarEjemplo1() {
-    document.getElementById('tituloExperimento').value = 'Ejemplo: Interpolación básica';
-    document.getElementById('nombreEjeX').value = 'x';
-    document.getElementById('nombreEjeY').value = 'y';
-    document.getElementById('inputXEvaluar').value = '3';
-
-    this.estado.puntos = [
-      { x: 1, y: 2 },
-      { x: 2, y: 3 },
-      { x: 4, y: 1 }
-    ];
-
-    this.renderizarTabla();
-    this.actualizarEncabezados();
-    this.guardarEstado();
-
-    alert('✓ Ejemplo básico cargado');
-  },
-
-  cargarEjemplo2() {
+  cargarEjemplo() {
     document.getElementById('tituloExperimento').value = 'Ejemplo: Enfriamiento de un líquido';
     document.getElementById('nombreEjeX').value = 'Tiempo (min)';
     document.getElementById('nombreEjeY').value = 'Temperatura (°C)';
@@ -554,44 +507,8 @@ const App = {
 
     this.renderizarTabla();
     this.actualizarEncabezados();
-    this.guardarEstado();
 
     alert('✓ Ejemplo contextual cargado');
-  },
-
-  guardarEstado() {
-    this.leerPuntos();
-
-    const estado = {
-      puntos: this.estado.puntos,
-      tituloExperimento: document.getElementById('tituloExperimento').value,
-      nombreEjeX: document.getElementById('nombreEjeX').value,
-      nombreEjeY: document.getElementById('nombreEjeY').value,
-      xEvaluar: document.getElementById('inputXEvaluar').value,
-      formato: document.getElementById('selectFormato').value
-    };
-
-    localStorage.setItem('lagrange_estado', JSON.stringify(estado));
-  },
-
-  cargarEstado() {
-    const datos = localStorage.getItem('lagrange_estado');
-
-    if (datos) {
-      try {
-        const estado = JSON.parse(datos);
-
-        this.estado.puntos = estado.puntos || [];
-
-        document.getElementById('tituloExperimento').value = estado.tituloExperimento || '';
-        document.getElementById('nombreEjeX').value = estado.nombreEjeX || 'x';
-        document.getElementById('nombreEjeY').value = estado.nombreEjeY || 'y';
-        document.getElementById('inputXEvaluar').value = estado.xEvaluar || '3';
-        document.getElementById('selectFormato').value = estado.formato || '2';
-      } catch (error) {
-        console.error('Error al cargar estado:', error);
-      }
-    }
   }
 };
 

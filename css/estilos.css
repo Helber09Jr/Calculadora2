@@ -24,8 +24,8 @@ body {
 }
 
 .encabezado-principal {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
-  color: var(--azul-oscuro);
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
+  color: white;
   border-bottom: 4px solid var(--dorado);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -55,7 +55,7 @@ body {
   font-size: 17px;
   font-weight: 700;
   margin: 0;
-  color: var(--azul-oscuro);
+  color: white;
   letter-spacing: 0.3px;
 }
 
@@ -63,7 +63,7 @@ body {
   font-size: 14px;
   font-weight: 500;
   margin: 0;
-  color: var(--azul-medio);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .contenedor-titulo {
@@ -76,15 +76,7 @@ body {
   letter-spacing: 2px;
   margin: 0;
   text-transform: uppercase;
-  background: linear-gradient(
-    135deg,
-    var(--azul-oscuro) 0%,
-    var(--azul-medio) 50%,
-    var(--dorado) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--dorado);
 }
 
 .menu-navegacion {
@@ -129,8 +121,8 @@ body {
 .boton-menu {
   display: none;
   background: transparent;
-  border: 2px solid var(--azul-oscuro);
-  color: var(--azul-oscuro);
+  border: 2px solid white;
+  color: white;
   font-size: 1.8em;
   padding: 8px 18px;
   cursor: pointer;

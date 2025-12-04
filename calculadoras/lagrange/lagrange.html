@@ -81,8 +81,9 @@
       
       <div class="controles-tabla">
         <button class="boton-esis" id="btnAgregarFila">+ Agregar fila</button>
-        <button class="boton-esis secundario" id="btnPegar">Pegar</button>
-      </div>    </div>
+        <button class="boton-esis secundario" id="btnLimpiarTodo">🗑️ Limpiar todo</button>
+      </div>
+    </div>
 
     <div class="seccion-panel">
       <div class="titulo-seccion">Evaluación</div>
@@ -90,8 +91,7 @@
       <input id="inputXEvaluar" type="number" step="any" value="3">
       <div class="controles" style="margin-top:10px">
         <button class="boton-esis primario" id="btnCalcular">Calcular</button>
-        <button class="boton-esis secundario" id="btnEjemplo1">Ejemplo Básico</button>
-        <button class="boton-esis secundario" id="btnEjemplo2">Ejemplo Contextual</button>
+        <button class="boton-esis secundario" id="btnEjemplo">Cargar Ejemplo</button>
       </div>
     </div>
 
@@ -105,10 +105,6 @@
         <option value="auto">Enteros si es posible</option>
       </select>
     </div>
-
-    <div style="margin-top:auto" class="texto-pequeno-gris">
-      Guardado automático al calcular
-    </div>
   </aside>
 
   <main class="principal">
@@ -117,9 +113,6 @@
         <div>
           <div class="titulo-tarjeta">Gráfico Interactivo</div>
           <div class="texto-pequeno-gris">Usa el mouse para hacer zoom. Puntos (rojo), Polinomio (azul), Evaluación (verde)</div>
-        </div>
-        <div class="acciones-grafico">
-          <button class="icono-accion" id="btnExportarPNG" title="Exportar PNG">📷 PNG</button>
         </div>
       </div>
       <div id="graficoLagrange"></div>
