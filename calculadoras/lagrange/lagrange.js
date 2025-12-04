@@ -112,7 +112,15 @@ const App = {
       document.getElementById('nombreEjeY').value = 'y';
       document.getElementById('inputXEvaluar').value = '3';
       this.actualizarEncabezados();
-      alert('✓ Todos los datos han sido limpiados');
+
+      const seccion = document.getElementById('seccionDesarrollo');
+      if (!seccion.classList.contains('oculto')) {
+        seccion.classList.add('oculto');
+        seccion.setAttribute('aria-hidden', 'true');
+        document.getElementById('btnTogglePasos').textContent = 'Abrir desarrollo';
+      }
+
+      alert('Todos los datos han sido limpiados correctamente');
     }
   },
 
@@ -226,10 +234,10 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`✓ Interpolación calculada: P(${xEval}) = ${this.formatear(resultado)}`);
+      alert(`Interpolación calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
 
     } catch (error) {
-      alert('✗ Error: ' + error.message);
+      alert('Error: ' + error.message);
     }
   },
 
@@ -299,9 +307,9 @@ const App = {
     let latex = `
       <div class="paso-desarrollo">
         <h4>Paso 1: Fórmula General de Lagrange</h4>
-        <p>$$P(x) = \\sum_{i=0}^{n} ${nombreY}_i \\cdot L_i(x)$$</p>
+        <p>$$P(x) = \\sum_{i=0}^{n} y_i \\cdot L_i(x)$$</p>
         <p>Donde:</p>
-        <p>$$L_i(x) = \\prod_{\\substack{j=0\\\\j \\neq i}}^{n} \\frac{x - ${nombreX}_j}{${nombreX}_i - ${nombreX}_j}$$</p>
+        <p>$$L_i(x) = \\prod_{\\substack{j=0\\\\j \\neq i}}^{n} \\frac{x - x_j}{x_i - x_j}$$</p>
       </div>
 
       <div class="paso-desarrollo">
@@ -470,7 +478,7 @@ const App = {
 
   alternarPasos() {
     if (!this.estado.resultado) {
-      alert('⚠ Primero calcula la interpolación');
+      alert('Primero calcula la interpolación');
       return;
     }
 
@@ -508,9 +516,10 @@ const App = {
     this.renderizarTabla();
     this.actualizarEncabezados();
 
-    alert('✓ Ejemplo contextual cargado');
+    alert('Ejemplo cargado correctamente');
   }
 };
+
 
 document.addEventListener('DOMContentLoaded', () => {
   App.iniciar();
