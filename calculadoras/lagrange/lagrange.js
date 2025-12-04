@@ -112,7 +112,15 @@ const App = {
       document.getElementById('nombreEjeY').value = 'y';
       document.getElementById('inputXEvaluar').value = '3';
       this.actualizarEncabezados();
-      alert('✓ Todos los datos han sido limpiados');
+
+      const seccion = document.getElementById('seccionDesarrollo');
+      if (!seccion.classList.contains('oculto')) {
+        seccion.classList.add('oculto');
+        seccion.setAttribute('aria-hidden', 'true');
+        document.getElementById('btnTogglePasos').textContent = 'Abrir desarrollo';
+      }
+
+      alert('Todos los datos han sido limpiados correctamente');
     }
   },
 
@@ -226,10 +234,10 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`✓ Interpolación calculada: P(${xEval}) = ${this.formatear(resultado)}`);
+      alert(`Interpolación calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
 
     } catch (error) {
-      alert('✗ Error: ' + error.message);
+      alert('Error: ' + error.message);
     }
   },
 
@@ -470,7 +478,7 @@ const App = {
 
   alternarPasos() {
     if (!this.estado.resultado) {
-      alert('⚠ Primero calcula la interpolación');
+      alert('Primero calcula la interpolación');
       return;
     }
 
@@ -508,9 +516,10 @@ const App = {
     this.renderizarTabla();
     this.actualizarEncabezados();
 
-    alert('✓ Ejemplo contextual cargado');
+    alert('Ejemplo cargado correctamente');
   }
 };
+
 
 document.addEventListener('DOMContentLoaded', () => {
   App.iniciar();

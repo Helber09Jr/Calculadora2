@@ -29,12 +29,17 @@ body {
   width: 380px;
   background: var(--blanco);
   border-radius: var(--radio-card);
-  box-shadow: var(--sombra-card);
+  box-shadow: 0 2px 8px rgba(0, 40, 85, 0.1), 0 8px 24px rgba(0, 40, 85, 0.06);
   border: 2px solid var(--gris-borde);
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.panel:hover {
+  box-shadow: 0 4px 12px rgba(0, 40, 85, 0.12), 0 12px 32px rgba(0, 40, 85, 0.08);
 }
 
 .seccion-panel {
@@ -160,8 +165,9 @@ td input.campo-invalido {
 
 .controles-tabla {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
+  margin-top: 12px;
 }
 
 .boton-esis,
@@ -169,14 +175,20 @@ td input.campo-invalido {
   background: var(--azul-secundario);
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 11px 18px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 13px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   display: inline-block;
   text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 40, 85, 0.15);
+}
+
+.boton-esis:active,
+.boton-archivo:active {
+  transform: translateY(0);
 }
 
 .boton-esis:hover,
@@ -190,10 +202,12 @@ td input.campo-invalido {
   background: var(--amarillo-esis);
   color: var(--azul-primario);
   font-weight: 700;
+  box-shadow: 0 2px 6px rgba(255, 183, 3, 0.3);
 }
 
 .boton-esis.primario:hover {
   background: #e5a503;
+  box-shadow: 0 4px 12px rgba(255, 183, 3, 0.4);
 }
 
 .boton-esis.secundario {
@@ -233,15 +247,16 @@ td input.campo-invalido {
 .tarjeta-esis {
   background: var(--blanco);
   border-radius: var(--radio-card);
-  box-shadow: var(--sombra-card);
+  box-shadow: 0 2px 8px rgba(0, 40, 85, 0.1), 0 8px 24px rgba(0, 40, 85, 0.06);
   border: 2px solid var(--gris-borde);
-  padding: 20px;
-  transition: all 0.3s;
+  padding: 24px;
+  transition: all 0.3s ease;
 }
 
 .tarjeta-esis:hover {
-  box-shadow: 0 8px 20px rgba(255, 183, 3, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 40, 85, 0.12), 0 12px 32px rgba(0, 40, 85, 0.08);
   border-color: var(--amarillo-esis);
+  transform: translateY(-2px);
 }
 
 .encabezado-tarjeta {
