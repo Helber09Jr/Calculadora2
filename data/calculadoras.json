@@ -1,6 +1,10 @@
 {
   "unidad1": {
-    "titulo": "Unidad I: Interpolación y Aproximación",
+    "titulo": "Unidad I: Interpolación y Aproximación (Próximamente)",
+    "items": []
+  },
+  "unidad2": {
+    "titulo": "Unidad II: Integración Numérica y Ecuaciones Diferenciales",
     "items": [
       {
         "nombre": "Interpolación de Lagrange",
@@ -8,23 +12,6 @@
         "link": "calculadoras/lagrange/lagrange.html",
         "imagen": "imagenes/calculadoras/lagrange.png"
       },
-      {
-        "nombre": "Interpolación de Newton",
-        "descripcion": "Método de diferencias divididas para construir polinomios interpoladores de forma eficiente.",
-        "link": "calculadoras/newton/newton.html",
-        "imagen": "imagenes/calculadoras/newton.png"
-      },
-      {
-        "nombre": "Mínimos Cuadrados",
-        "descripcion": "Aproximación de datos mediante regresión lineal y cuadrática para encontrar la mejor curva de ajuste.",
-        "link": "calculadoras/minimos-cuadrados/minimos-cuadrados.html",
-        "imagen": "imagenes/calculadoras/minimos-cuadrados.png"
-      }
-    ]
-  },
-  "unidad2": {
-    "titulo": "Unidad II: Integración Numérica y Ecuaciones Diferenciales",
-    "items": [
       {
         "nombre": "Método del Trapecio",
         "descripcion": "Aproximación de integrales definidas mediante la suma de áreas de trapecios.",

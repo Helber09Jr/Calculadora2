@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InterpolaciÛn de Lagrange - ESIS</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interpolaci√≥n de Lagrange - Calculadora ESIS</title>
 
-  <!-- LibrerÌas CDN -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="../../css/estilos.css">
-  <link rel="stylesheet" href="../../css/responsive.css">
-  <link rel="stylesheet" href="lagrange.css">
+<link rel="stylesheet" href="../../css/estilos.css">
+<link rel="stylesheet" href="../../css/responsive.css">
+<link rel="stylesheet" href="lagrange.css">
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="encabezado-principal">
   <div class="barra-superior">
     <div class="contenedor-logo">
       <img src="../../imagenes/logo-esis.png" alt="Logo ESIS" class="logo">
       <div class="info-universidad">
         <h1>UNIVERSIDAD NACIONAL JORGE BASADRE GROHMANN</h1>
-        <h2>Escuela Profesional de IngenierÌa en Sistemas e Inform·tica</h2>
+        <h2>Escuela Profesional de Ingenier√≠a en Sistemas e Inform√°tica</h2>
       </div>
     </div>
     <div class="contenedor-titulo">
-      <h2 class="titulo-proyecto">INTERPOLACI”N DE LAGRANGE</h2>
+      <h2 class="titulo-proyecto">INTERPOLACI√ìN DE LAGRANGE</h2>
     </div>
   </div>
+
   <nav class="menu-navegacion" id="menuNavegacion">
     <ul>
       <li><a href="../../index.html">Inicio</a></li>
@@ -40,130 +38,139 @@
       <li><a href="../../index.html#contacto">Contacto</a></li>
     </ul>
   </nav>
-  <button class="boton-menu" id="botonMenu">=</button>
+
+  <button class="boton-menu" id="botonMenu" aria-label="Abrir men√∫">‚ò∞</button>
 </header>
 
-<!-- CONTENEDOR PRINCIPAL -->
-<div class="contenedor-aplicacion">
+<div class="aplicacion">
+  <aside class="panel" aria-label="Controles">
+    <div class="seccion-panel">
+      <div class="titulo-seccion">Experimento</div>
+      <label class="etiqueta-pequena">T√≠tulo del experimento</label>
+      <input id="tituloExperimento" type="text" placeholder="Ej: Enfriamiento de un l√≠quido">
+    </div>
 
-  <!-- PANEL IZQUIERDO: CONTROLES -->
-  <aside class="panel-controles">
-
-    <!-- SecciÛn TÌtulo -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">Experimento</h3>
-      <label>TÌtulo</label>
-      <input type="text" id="tituloExperimento" placeholder="Ej: Enfriamiento de un lÌquido">
-    </section>
-
-    <!-- SecciÛn Etiquetas de Ejes -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">Etiquetas de Ejes</h3>
-      <label>Eje X (horizontal)</label>
-      <input type="text" id="nombreEjeX" placeholder="Ej: Tiempo (min)" value="x">
-      <label>Eje Y (vertical)</label>
-      <input type="text" id="nombreEjeY" placeholder="Ej: Temperatura (∞C)" value="y">
-    </section>
-
-    <!-- SecciÛn Puntos de Datos -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">Puntos de Datos</h3>
-      <div class="contenedor-tabla">
-        <table id="tablaPuntos">
-          <thead>
-            <tr>
-              <th>i</th>
-              <th id="encabezadoX">x</th>
-              <th id="encabezadoY">y</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="cuerpoTablaPuntos">
-            <!-- Filas din·micas -->
-          </tbody>
-        </table>
+    <div class="seccion-panel">
+      <div class="titulo-seccion">Puntos de Datos</div>
+      <div class="texto-pequeno-gris">Ingrese valores num√©ricos. Use + para a√±adir fila, X para borrar.</div>
+      
+      <div class="encabezados-tabla">
+        <div class="grupo-encabezado">
+          <label class="etiqueta-pequena">Eje X</label>
+          <input type="text" id="nombreEjeX" value="x" placeholder="Nombre eje X">
+        </div>
+        <div class="grupo-encabezado">
+          <label class="etiqueta-pequena">Eje Y</label>
+          <input type="text" id="nombreEjeY" value="y" placeholder="Nombre eje Y">
+        </div>
       </div>
+
+      <div class="contenedor-tabla-responsivo">
+        <div class="contenedor-tabla">
+          <table id="tablaPuntos">
+            <thead>
+              <tr>
+                <th style="width:40px">i</th>
+                <th class="encabezado-x">x</th>
+                <th class="encabezado-y">y</th>
+                <th style="width:60px"></th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTablaPuntos"></tbody>
+          </table>
+        </div>
+      </div>
+      
       <div class="controles-tabla">
-        <button id="btnAgregarFila" class="boton-primario">+ Agregar Fila</button>
-        <button id="btnPegar" class="boton-secundario">Pegar</button>
-        <label class="boton-secundario boton-archivo">
+        <button class="boton-esis" id="btnAgregarFila">+ Agregar fila</button>
+        <button class="boton-esis secundario" id="btnPegar">Pegar</button>
+        <label class="boton-esis secundario boton-archivo">
           Importar
-          <input type="file" id="inputImportar" accept=".csv,.xlsx,.xls" hidden>
+          <input type="file" id="inputImportar" accept=".csv,.xlsx,.xls" style="display:none">
         </label>
       </div>
-    </section>
+    </div>
 
-    <!-- SecciÛn EvaluaciÛn -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">EvaluaciÛn</h3>
-      <label>Evaluar en x =</label>
-      <input type="number" id="inputXEvaluar" step="any" value="3">
-      <button id="btnCalcular" class="boton-primario boton-calcular">Calcular</button>
-      <div class="grupo-botones-ejemplo">
-        <button id="btnEjemplo1" class="boton-secundario">Ejemplo B·sico</button>
-        <button id="btnEjemplo2" class="boton-secundario">Ejemplo Contextual</button>
+    <div class="seccion-panel">
+      <div class="titulo-seccion">Evaluaci√≥n</div>
+      <label class="etiqueta-pequena">Evaluar en x =</label>
+      <input id="inputXEvaluar" type="number" step="any" value="3">
+      <div class="controles" style="margin-top:10px">
+        <button class="boton-esis primario" id="btnCalcular">Calcular</button>
+        <button class="boton-esis secundario" id="btnEjemplo1">Ejemplo B√°sico</button>
+        <button class="boton-esis secundario" id="btnEjemplo2">Ejemplo Contextual</button>
       </div>
-    </section>
+    </div>
 
-    <!-- SecciÛn Opciones -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">Opciones</h3>
-      <label>Formato de decimales</label>
+    <div class="seccion-panel">
+      <div class="titulo-seccion">Opciones</div>
+      <label class="etiqueta-pequena">Formato num√©rico</label>
       <select id="selectFormato">
         <option value="2">2 decimales</option>
         <option value="3">3 decimales</option>
         <option value="4">4 decimales</option>
         <option value="auto">Enteros si es posible</option>
       </select>
-    </section>
+    </div>
 
-    <!-- SecciÛn Exportar -->
-    <section class="seccion-panel">
-      <h3 class="titulo-seccion">Exportar</h3>
-      <button id="btnExportarPNG" class="boton-secundario">Imagen PNG</button>
-      <button id="btnExportarCSV" class="boton-secundario">Archivo CSV</button>
-      <button id="btnExportarPDF" class="boton-secundario">Documento PDF</button>
-    </section>
-
+    <div style="margin-top:auto" class="texto-pequeno-gris">
+      Guardado autom√°tico al calcular
+    </div>
   </aside>
 
-  <!-- PANEL DERECHO: RESULTADOS -->
-  <main class="panel-resultados">
-
-    <!-- Gr·fico -->
-    <section class="tarjeta-resultado">
-      <h3>Gr·fico Interactivo</h3>
+  <main class="principal">
+    <section class="tarjeta-esis">
+      <div class="encabezado-tarjeta">
+        <div>
+          <div class="titulo-tarjeta">Gr√°fico Interactivo</div>
+          <div class="texto-pequeno-gris">Usa el mouse para hacer zoom. Puntos (rojo), Polinomio (azul), Evaluaci√≥n (verde)</div>
+        </div>
+        <div class="acciones-grafico">
+          <button class="icono-accion" id="btnExportarPNG" title="Exportar PNG">PNG</button>
+          <button class="icono-accion" id="btnExportarCSV" title="Exportar CSV">CSV</button>
+          <button class="icono-accion" id="btnExportarPDF" title="Exportar PDF">PDF</button>
+        </div>
+      </div>
       <div id="graficoLagrange"></div>
     </section>
 
-    <!-- Tabla de Resultados -->
-    <section class="tarjeta-resultado">
+    <section id="tarjetaResultado" class="tarjeta-esis">
       <div class="encabezado-tarjeta">
-        <h3>Resultado</h3>
-        <button id="btnTogglePasos" class="boton-toggle">Ver Desarrollo</button>
+        <div>
+          <div class="titulo-tarjeta">Resultado</div>
+          <div class="texto-pequeno-gris">Valor interpolado y tabla de contribuciones</div>
+        </div>
+        <div class="acciones-inferior">
+          <button id="btnTogglePasos" class="boton-toggle">Abrir desarrollo</button>
+        </div>
       </div>
       <div id="contenedorResultado"></div>
     </section>
 
-    <!-- Desarrollo Paso a Paso (colapsable) -->
-    <section id="seccionDesarrollo" class="tarjeta-resultado oculto">
-      <h3>Desarrollo Paso a Paso</h3>
+    <section id="seccionDesarrollo" class="tarjeta-esis oculto" aria-hidden="true">
+      <div class="encabezado-tarjeta">
+        <div class="titulo-tarjeta">Desarrollo Completo</div>
+        <div class="texto-pequeno-gris">F√≥rmulas y c√°lculos paso a paso</div>
+      </div>
       <div id="contenedorDesarrollo"></div>
     </section>
-
   </main>
-
 </div>
 
-<!-- FOOTER -->
 <footer class="pie-pagina">
   <div class="contenedor-pie">
     <div class="info-izquierda">
-      <p class="item-footer"><strong>Curso:</strong> Modelado Computacional para IngenierÌa</p>
-      <p class="item-footer"><strong>Docente:</strong> MSc. Ing. Jorge R. Chambilla Araca</p>
+      <p class="item-footer" data-tooltip="Asignatura actual">
+        <strong>Curso:</strong> Modelado Computacional para Ingenier√≠a
+      </p>
+      <p class="item-footer" data-tooltip="Docente a cargo">
+        <strong>Docente:</strong> MSc. Ing. Jorge R. Chambilla Araca
+      </p>
     </div>
     <div class="info-derecha">
-      <p class="item-footer"><strong>Desarrollado por:</strong> Helber Junior Lope | Elvis Ronald Arocutipa | Oscar Fabi·n Choque</p>
+      <p class="item-footer" data-tooltip="Equipo desarrollador">
+        <strong>Desarrollado por:</strong> Helber Junior Lope | Elvis Ronald Arocutipa | Oscar Fabi√°n Choque
+      </p>
     </div>
   </div>
   <div class="creditos">
@@ -171,8 +178,7 @@
   </div>
 </footer>
 
-<!-- Contenedor de notificaciones Toast -->
-<div id="contenedorNotificaciones"></div>
+<div id="contenedorNotificaciones" class="contenedor-notificaciones"></div>
 
 <script src="lagrange.js"></script>
 
