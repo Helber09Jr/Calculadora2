@@ -357,7 +357,18 @@ const App = {
         latex += `(${this.formatear(c.xi)} - ${this.formatear(f.xj)})`;
       });
 
-      latex += `} = \\frac{${this.formatear(c.numerador)}}{${this.formatear(c.denominador)}} = ${this.formatear(c.Li)}$$</p>`;
+      latex += '} = \\frac{';
+      c.factoresNum.forEach((f, idx) => {
+        if (idx > 0) latex += ' \\times ';
+        latex += this.formatear(f.valor);
+      });
+      latex += '}{';
+      c.factoresDen.forEach((f, idx) => {
+        if (idx > 0) latex += ' \\times ';
+        latex += this.formatear(f.valor);
+      });
+
+      latex += `} = ${this.formatear(c.Li)}$$</p>`;
     });
 
     latex += `</div>`;
