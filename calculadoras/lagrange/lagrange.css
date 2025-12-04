@@ -312,25 +312,32 @@ td input.campo-invalido {
 }
 
 .resultado-principal {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
+  background: white;
+  border-left: 5px solid var(--amarillo-esis);
+  padding: 16px 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 40, 85, 0.08);
+  transition: all 0.3s ease;
+}
+
+.resultado-principal:hover {
+  box-shadow: 0 4px 10px rgba(0, 40, 85, 0.12);
+  transform: translateX(4px);
 }
 
 .etiqueta-resultado {
-  font-size: 1em;
-  margin-bottom: 5px;
-  opacity: 0.95;
+  font-size: 0.95em;
+  margin-bottom: 6px;
+  color: #64748b;
+  font-weight: 600;
 }
 
 .valor-resultado {
-  font-size: 1.8em;
-  font-weight: 700;
+  font-size: 1.5em;
+  font-weight: 800;
   margin: 0;
+  color: var(--azul-primario);
 }
 
 .tabla-resultados {

@@ -307,9 +307,9 @@ const App = {
     let latex = `
       <div class="paso-desarrollo">
         <h4>Paso 1: Fórmula General de Lagrange</h4>
-        <p>$$P(x) = \\sum_{i=0}^{n} ${nombreY}_i \\cdot L_i(x)$$</p>
+        <p>$$P(x) = \\sum_{i=0}^{n} y_i \\cdot L_i(x)$$</p>
         <p>Donde:</p>
-        <p>$$L_i(x) = \\prod_{\\substack{j=0\\\\j \\neq i}}^{n} \\frac{x - ${nombreX}_j}{${nombreX}_i - ${nombreX}_j}$$</p>
+        <p>$$L_i(x) = \\prod_{\\substack{j=0\\\\j \\neq i}}^{n} \\frac{x - x_j}{x_i - x_j}$$</p>
       </div>
 
       <div class="paso-desarrollo">
