@@ -67,7 +67,7 @@ const App = {
   },
 
   limpiarTodo() {
-    if (confirm('�Est�s seguro de limpiar todos los datos?')) {
+    if (confirm('¿Estás seguro de limpiar todos los datos?')) {
       this.estado.puntos = [];
       this.estado.resultado = null;
       this.renderizarTabla();
@@ -118,7 +118,7 @@ const App = {
     const puntosValidos = this.estado.puntos.filter(p => p.x !== null && p.y !== null);
 
     if (puntosValidos.length < 2) {
-      alert('Se necesitan al menos 2 puntos v�lidos');
+      alert('Se necesitan al menos 2 puntos válidos');
       return false;
     }
 
@@ -157,7 +157,7 @@ const App = {
     const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
 
     if (isNaN(xEval)) {
-      alert('Ingrese un valor v�lido para x');
+      alert('Ingrese un valor válido para x');
       return;
     }
 
@@ -178,7 +178,7 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`Interpolaci�n calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
+      alert(`Interpolación calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
 
     } catch (error) {
       alert('Error: ' + error.message);
@@ -246,7 +246,7 @@ const App = {
 
     let latex = `
       <div class="paso-desarrollo">
-        <h4>Paso 1: F�rmula General de Newton</h4>
+        <h4>Paso 1: Fórmula General de Newton</h4>
         <p>$$P(x) = a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1) + \\ldots + a_n(x-x_0)(x-x_1)\\cdots(x-x_{n-1})$$</p>
         <p>Donde:</p>
         <p>$$a_i = \\text{Diferencia dividida de orden } i$$</p>
@@ -325,7 +325,7 @@ const App = {
           </tbody>
         </table>
         <p style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
-          Los coeficientes a<sub>i</sub> est�n resaltados en amarillo (primera fila)
+          Los coeficientes a<sub>i</sub> están resaltados en amarillo (primera fila)
         </p>
       </div>
 
@@ -341,8 +341,8 @@ const App = {
 
     latex += `
       <div class="paso-desarrollo">
-        <h4>Paso 5: Evaluaci�n en x = ${this.formatear(r.xEval)} (Esquema de Horner)</h4>
-        <p>Evaluaci�n anidada de atr�s hacia adelante:</p>
+        <h4>Paso 5: Evaluación en x = ${this.formatear(r.xEval)} (Esquema de Horner)</h4>
+        <p>Evaluación anidada de atrás hacia adelante:</p>
     `;
 
     const n = r.coeficientes.length;
@@ -428,7 +428,7 @@ const App = {
       }
     };
 
-    const titulo = document.getElementById('tituloExperimento').value || 'Interpolaci�n de Newton';
+    const titulo = document.getElementById('tituloExperimento').value || 'Interpolación de Newton';
     const nombreX = document.getElementById('nombreEjeX').value || 'x';
     const nombreY = document.getElementById('nombreEjeY').value || 'y';
 
@@ -509,7 +509,7 @@ const App = {
 
   alternarPasos() {
     if (!this.estado.resultado) {
-      alert('Primero calcula la interpolaci�n');
+      alert('Primero calcula la interpolación');
       return;
     }
 
@@ -529,11 +529,11 @@ const App = {
 
   alternarMenu() {
     const menu = document.getElementById('menuNavegacion');
-    menu.classList.toggle('activo');
+    menu.classList.toggle('menu-activo');
   },
 
   cargarEjemplo() {
-    document.getElementById('tituloExperimento').value = 'Funci�n cuadr�tica y = x�';
+    document.getElementById('tituloExperimento').value = 'Función cuadrática y = x²';
     document.getElementById('nombreEjeX').value = 'x';
     document.getElementById('nombreEjeY').value = 'y';
     document.getElementById('inputXEvaluar').value = '2.5';
