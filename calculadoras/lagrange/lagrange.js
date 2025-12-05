@@ -493,7 +493,35 @@ const App = {
         font: { size: 12 }
       },
       margin: { l: 70, r: 40, t: 80, b: 60 },
-      hovermode: 'closest'
+      hovermode: 'closest',
+      shapes: [{
+        type: 'line',
+        x0: r.xEval,
+        x1: r.xEval,
+        y0: 0,
+        y1: 1,
+        yref: 'paper',
+        line: {
+          color: '#10b981',
+          width: 2,
+          dash: 'dash'
+        }
+      }],
+      annotations: [{
+        x: r.xEval,
+        y: 1,
+        yref: 'paper',
+        text: `x = ${this.formatear(r.xEval)}`,
+        showarrow: false,
+        yanchor: 'bottom',
+        font: {
+          size: 11,
+          color: '#10b981',
+          family: 'Inter, system-ui, sans-serif'
+        },
+        bgcolor: 'rgba(255, 255, 255, 0.8)',
+        borderpad: 3
+      }]
     };
 
     const config = {
