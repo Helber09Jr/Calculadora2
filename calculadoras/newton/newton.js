@@ -67,7 +67,7 @@ const App = {
   },
 
   limpiarTodo() {
-    if (confirm('¿Estás seguro de limpiar todos los datos?')) {
+    if (confirm('ï¿½Estï¿½s seguro de limpiar todos los datos?')) {
       this.estado.puntos = [];
       this.estado.resultado = null;
       this.renderizarTabla();
@@ -118,7 +118,7 @@ const App = {
     const puntosValidos = this.estado.puntos.filter(p => p.x !== null && p.y !== null);
 
     if (puntosValidos.length < 2) {
-      alert('Se necesitan al menos 2 puntos válidos');
+      alert('Se necesitan al menos 2 puntos vï¿½lidos');
       return false;
     }
 
@@ -157,7 +157,7 @@ const App = {
     const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
 
     if (isNaN(xEval)) {
-      alert('Ingrese un valor válido para x');
+      alert('Ingrese un valor vï¿½lido para x');
       return;
     }
 
@@ -178,7 +178,7 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`Interpolación calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
+      alert(`Interpolaciï¿½n calculada correctamente: P(${xEval}) = ${this.formatear(resultado)}`);
 
     } catch (error) {
       alert('Error: ' + error.message);
@@ -246,7 +246,7 @@ const App = {
 
     let latex = `
       <div class="paso-desarrollo">
-        <h4>Paso 1: Fórmula General de Newton</h4>
+        <h4>Paso 1: Fï¿½rmula General de Newton</h4>
         <p>$$P(x) = a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1) + \\ldots + a_n(x-x_0)(x-x_1)\\cdots(x-x_{n-1})$$</p>
         <p>Donde:</p>
         <p>$$a_i = \\text{Diferencia dividida de orden } i$$</p>
@@ -291,7 +291,12 @@ const App = {
     `;
 
     for (let j = 1; j < r.puntos.length; j++) {
-      latex += `<th>Orden ${j}</th>`;
+      let indices = '';
+      for (let k = 0; k <= j; k++) {
+        if (k > 0) indices += ',';
+        indices += `${nombreX}<sub>${k}</sub>`;
+      }
+      latex += `<th>f[${indices}]</th>`;
     }
 
     latex += `
@@ -320,7 +325,7 @@ const App = {
           </tbody>
         </table>
         <p style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
-          Los coeficientes a<sub>i</sub> están resaltados en amarillo (primera fila)
+          Los coeficientes a<sub>i</sub> estï¿½n resaltados en amarillo (primera fila)
         </p>
       </div>
 
@@ -336,8 +341,8 @@ const App = {
 
     latex += `
       <div class="paso-desarrollo">
-        <h4>Paso 5: Evaluación en x = ${this.formatear(r.xEval)} (Esquema de Horner)</h4>
-        <p>Evaluación anidada de atrás hacia adelante:</p>
+        <h4>Paso 5: Evaluaciï¿½n en x = ${this.formatear(r.xEval)} (Esquema de Horner)</h4>
+        <p>Evaluaciï¿½n anidada de atrï¿½s hacia adelante:</p>
     `;
 
     const n = r.coeficientes.length;
@@ -423,7 +428,7 @@ const App = {
       }
     };
 
-    const titulo = document.getElementById('tituloExperimento').value || 'Interpolación de Newton';
+    const titulo = document.getElementById('tituloExperimento').value || 'Interpolaciï¿½n de Newton';
     const nombreX = document.getElementById('nombreEjeX').value || 'x';
     const nombreY = document.getElementById('nombreEjeY').value || 'y';
 
@@ -504,7 +509,7 @@ const App = {
 
   alternarPasos() {
     if (!this.estado.resultado) {
-      alert('Primero calcula la interpolación');
+      alert('Primero calcula la interpolaciï¿½n');
       return;
     }
 
@@ -528,7 +533,7 @@ const App = {
   },
 
   cargarEjemplo() {
-    document.getElementById('tituloExperimento').value = 'Función cuadrática y = x²';
+    document.getElementById('tituloExperimento').value = 'Funciï¿½n cuadrï¿½tica y = xï¿½';
     document.getElementById('nombreEjeX').value = 'x';
     document.getElementById('nombreEjeY').value = 'y';
     document.getElementById('inputXEvaluar').value = '2.5';
