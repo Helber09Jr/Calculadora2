@@ -18,8 +18,7 @@
         "nombre": "Mínimos Cuadrados",
         "descripcion": "Ajuste de modelos polinomiales que minimizan el error cuadrático medio entre datos observados y predichos.",
         "link": "calculadoras/minimos-cuadrados/minimos-cuadrados.html",
-        "imagen": "imagenes/calculadoras/minimos-cuadrados.png",
-        
+        "imagen": "imagenes/calculadoras/minimos-cuadrados.png"
       }
     ]
   },
