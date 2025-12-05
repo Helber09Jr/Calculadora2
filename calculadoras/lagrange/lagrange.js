@@ -20,11 +20,6 @@ const App = {
 
     document.getElementById('nombreEjeX').oninput = () => this.actualizarEncabezados();
     document.getElementById('nombreEjeY').oninput = () => this.actualizarEncabezados();
-    document.getElementById('selectFormato').onchange = () => {
-      if (this.estado.resultado) {
-        this.mostrarResultado();
-      }
-    };
   },
 
   agregarFila(x = '', y = '') {
@@ -242,24 +237,10 @@ const App = {
   },
 
   formatear(numero) {
-    const formato = document.getElementById('selectFormato').value;
-
     if (Number.isInteger(numero)) {
       return numero.toString();
     }
-
-    if (formato === 'auto') {
-      return parseFloat(numero.toFixed(6)).toString();
-    }
-
-    const decimales = parseInt(formato);
-    const redondeado = parseFloat(numero.toFixed(decimales));
-
-    if (Number.isInteger(redondeado)) {
-      return redondeado.toString();
-    }
-
-    return redondeado.toString();
+    return parseFloat(numero.toFixed(6)).toString();
   },
 
   mostrarResultado() {
