@@ -244,14 +244,22 @@ const App = {
   formatear(numero) {
     const formato = document.getElementById('selectFormato').value;
 
+    if (Number.isInteger(numero)) {
+      return numero.toString();
+    }
+
     if (formato === 'auto') {
-      if (Number.isInteger(numero)) {
-        return numero.toString();
-      }
       return parseFloat(numero.toFixed(6)).toString();
     }
 
-    return numero.toFixed(parseInt(formato));
+    const decimales = parseInt(formato);
+    const redondeado = parseFloat(numero.toFixed(decimales));
+
+    if (Number.isInteger(redondeado)) {
+      return redondeado.toString();
+    }
+
+    return redondeado.toString();
   },
 
   mostrarResultado() {
@@ -435,24 +443,34 @@ const App = {
       x: puntosPolinomio.map(p => p.x),
       y: puntosPolinomio.map(p => p.y),
       mode: 'lines',
-      name: 'P(x) Lagrange',
-      line: { color: '#0b4a6f', width: 2 }
+      name: 'P(x)',
+      line: { color: '#1e40af', width: 3 }
     };
 
     const traza2 = {
       x: r.puntos.map(p => p.x),
       y: r.puntos.map(p => p.y),
       mode: 'markers',
-      name: 'Puntos dados',
-      marker: { color: '#ef4444', size: 10, symbol: 'circle' }
+      name: 'Puntos',
+      marker: {
+        color: '#dc2626',
+        size: 12,
+        symbol: 'circle',
+        line: { color: 'white', width: 2 }
+      }
     };
 
     const traza3 = {
       x: [r.xEval],
       y: [r.resultado],
       mode: 'markers',
-      name: `P(${r.xEval})`,
-      marker: { color: '#10b981', size: 12, symbol: 'diamond' }
+      name: `P(${this.formatear(r.xEval)})`,
+      marker: {
+        color: '#10b981',
+        size: 14,
+        symbol: 'diamond',
+        line: { color: 'white', width: 2 }
+      }
     };
 
     const titulo = document.getElementById('tituloExperimento').value || 'Interpolación de Lagrange';
@@ -460,14 +478,41 @@ const App = {
     const nombreY = document.getElementById('nombreEjeY').value || 'y';
 
     const layout = {
-      title: titulo,
-      xaxis: { title: nombreX, gridcolor: '#e5e7eb' },
-      yaxis: { title: nombreY, gridcolor: '#e5e7eb' },
-      plot_bgcolor: '#f8fafc',
-      paper_bgcolor: 'white',
+      title: {
+        text: titulo,
+        font: { size: 18, color: '#1e293b', family: 'Inter, system-ui, sans-serif' }
+      },
+      xaxis: {
+        title: { text: nombreX, font: { size: 14, color: '#475569' } },
+        gridcolor: '#e2e8f0',
+        showgrid: true,
+        zeroline: true,
+        zerolinecolor: '#94a3b8',
+        zerolinewidth: 1
+      },
+      yaxis: {
+        title: { text: nombreY, font: { size: 14, color: '#475569' } },
+        gridcolor: '#e2e8f0',
+        showgrid: true,
+        zeroline: true,
+        zerolinecolor: '#94a3b8',
+        zerolinewidth: 1
+      },
+      plot_bgcolor: '#ffffff',
+      paper_bgcolor: '#ffffff',
       showlegend: true,
-      legend: { x: 0, y: 1 },
-      margin: { l: 60, r: 40, t: 60, b: 60 }
+      legend: {
+        x: 1,
+        y: 1,
+        xanchor: 'right',
+        yanchor: 'top',
+        bgcolor: 'rgba(255, 255, 255, 0.9)',
+        bordercolor: '#cbd5e1',
+        borderwidth: 1,
+        font: { size: 12 }
+      },
+      margin: { l: 70, r: 40, t: 80, b: 60 },
+      hovermode: 'closest'
     };
 
     const config = {
