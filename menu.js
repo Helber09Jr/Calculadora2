@@ -41,6 +41,12 @@ function cargarCalculadorasDinamicas() {
       contenedor.innerHTML = '';
       renderizarCalculadoras(datos, contenedor);
       configurarAcordeon();
+      
+      // Abrir automáticamente la primera unidad
+      const primerBloque = contenedor.querySelector('.bloque-unidad');
+      if (primerBloque) {
+        primerBloque.classList.add('unidad-activa');
+      }
     })
     .catch(error => {
       console.error('Error:', error);
@@ -58,8 +64,12 @@ function cargarCalculadorasDinamicas() {
 function renderizarCalculadoras(datos, contenedor) {
   Object.keys(datos).forEach(claveUnidad => {
     const unidad = datos[claveUnidad];
-    const bloqueUnidad = crearBloqueUnidad(unidad);
-    contenedor.appendChild(bloqueUnidad);
+    
+    // Solo renderizar unidades que tengan items
+    if (unidad.items && unidad.items.length > 0) {
+      const bloqueUnidad = crearBloqueUnidad(unidad);
+      contenedor.appendChild(bloqueUnidad);
+    }
   });
 }
 
@@ -90,8 +100,20 @@ function crearBloqueUnidad(unidad) {
 
 function crearTarjetaCalculadora(item) {
   const enlace = document.createElement('a');
-  enlace.href = item.link;
   enlace.classList.add('tarjeta');
+  
+  // Si está en desarrollo, deshabilitar el enlace y agregar badge
+  if (item.estado === 'desarrollo') {
+    enlace.href = '#';
+    enlace.style.opacity = '0.6';
+    enlace.style.cursor = 'not-allowed';
+    enlace.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('⚠️ Esta calculadora está en desarrollo. Estará disponible próximamente.');
+    });
+  } else {
+    enlace.href = item.link;
+  }
 
   const imagenContenedor = document.createElement('div');
   imagenContenedor.classList.add('imagen-tarjeta');
@@ -100,7 +122,53 @@ function crearTarjetaCalculadora(item) {
   imagen.src = item.imagen;
   imagen.alt = item.nombre;
   imagen.loading = 'lazy';
+  
+  // Manejo de error si la imagen no existe
+  imagen.onerror = function() {
+    this.style.display = 'none';
+    imagenContenedor.innerHTML = '<div style="font-size: 4em; color: #ccc;">📊</div>';
+  };
+  
   imagenContenedor.appendChild(imagen);
+
+  // Badge de estado
+  if (item.estado === 'desarrollo') {
+    const badge = document.createElement('span');
+    badge.style.cssText = `
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #f59e0b;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    `;
+    badge.textContent = 'En desarrollo';
+    imagenContenedor.style.position = 'relative';
+    imagenContenedor.appendChild(badge);
+  } else if (item.estado === 'nuevo') {
+    const badge = document.createElement('span');
+    badge.style.cssText = `
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #10b981;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    `;
+    badge.textContent = 'Nuevo';
+    imagenContenedor.style.position = 'relative';
+    imagenContenedor.appendChild(badge);
+  }
 
   const contenido = document.createElement('div');
   contenido.classList.add('contenido-tarjeta');
@@ -128,6 +196,13 @@ function configurarAcordeon() {
   titulosUnidad.forEach(titulo => {
     titulo.addEventListener('click', () => {
       const bloque = titulo.parentElement;
+      
+      // Opcional: cerrar otros bloques al abrir uno
+      // const todosLosBloques = document.querySelectorAll('.bloque-unidad');
+      // todosLosBloques.forEach(b => {
+      //   if (b !== bloque) b.classList.remove('unidad-activa');
+      // });
+      
       bloque.classList.toggle('unidad-activa');
     });
   });
