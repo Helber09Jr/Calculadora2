@@ -1,20 +1,7 @@
-:root {
-  --azul-primario: #002855;
-  --azul-secundario: #004080;
-  --amarillo-esis: #ffb703;
-  --fondo-claro: #f8f9fa;
-  --blanco: #ffffff;
-  --gris-texto: #6b7280;
-  --gris-borde: #e0e5f2;
-  --sombra-card: 0 4px 10px rgba(0, 40, 85, 0.08);
-  --radio-card: 15px;
-}
-
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--fondo-claro);
-  margin: 0;
-  color: var(--azul-primario);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--gris-claro);
+  color: var(--texto-principal);
   -webkit-font-smoothing: antialiased;
 }
 
