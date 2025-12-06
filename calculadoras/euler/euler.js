@@ -16,7 +16,7 @@ const App = {
   },
 
   limpiarTodo() {
-    if (confirm('�Est�s seguro de limpiar todos los datos?')) {
+    if (confirm('¿Estás seguro de limpiar todos los datos?')) {
       this.estado.resultado = null;
       document.getElementById('tituloExperimento').value = '';
       document.getElementById('inputFuncion').value = 'x + y';
@@ -44,7 +44,7 @@ const App = {
       const func = new Function('x', 'y', `return ${expresion}`);
       return func(x, y);
     } catch (error) {
-      throw new Error(`Error en la expresi�n: ${expresion}. ${error.message}`);
+      throw new Error(`Error en la expresión: ${expresion}. ${error.message}`);
     }
   },
 
@@ -56,26 +56,25 @@ const App = {
     const n = parseInt(document.getElementById('inputN').value);
 
     if (!expresion) {
-      throw new Error('Debe ingresar una expresi�n para dy/dx');
+      throw new Error('Debe ingresar una expresión para dy/dx');
     }
 
     if (isNaN(x0)) {
-      throw new Error('El valor inicial x� debe ser un n�mero v�lido');
+      throw new Error('El valor inicial x0 debe ser un número válido');
     }
 
     if (isNaN(y0)) {
-      throw new Error('El valor inicial y� debe ser un n�mero v�lido');
+      throw new Error('El valor inicial y0 debe ser un número válido');
     }
 
     if (isNaN(h) || h <= 0) {
-      throw new Error('El tama�o de paso h debe ser un n�mero positivo');
+      throw new Error('El tamaño de paso h debe ser un número positivo');
     }
 
     if (isNaN(n) || n < 2) {
       throw new Error('Debe calcular al menos 2 puntos');
     }
 
-    // Validar que la funci�n se puede evaluar
     try {
       this.evaluarFuncion(expresion, x0, y0);
     } catch (error) {
@@ -117,7 +116,7 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`C�lculo completado exitosamente: ${n} puntos generados`);
+      alert(`Cálculo completado exitosamente: ${n} puntos generados`);
 
     } catch (error) {
       alert('Error: ' + error.message);
@@ -137,10 +136,10 @@ const App = {
 
     let html = `
       <div class="resultado-principal">
-        <p class="etiqueta-resultado">Ecuaci�n diferencial:</p>
+        <p class="etiqueta-resultado">Ecuación diferencial:</p>
         <p style="font-family: monospace; background: var(--gris-claro); padding: 8px; border-radius: 4px;">dy/dx = ${r.expresion}</p>
-        <p class="etiqueta-resultado" style="margin-top: 12px;">Condiciones iniciales:</p>
-        <p>x� = ${this.formatear(r.x0)}, y� = ${this.formatear(r.y0)}, h = ${this.formatear(r.h)}</p>
+        <p class="etiqueta-resultado" style="margin-top: 12px;">Condiciones iniciales y parámetros:</p>
+        <p>x0 = ${this.formatear(r.x0)}, y0 = ${this.formatear(r.y0)}, h = ${this.formatear(r.h)}, n = ${r.n}</p>
       </div>
 
       <table class="tabla-resultados">
@@ -176,42 +175,79 @@ const App = {
 
     let latex = `
       <div class="paso-desarrollo">
-        <h4>Paso 1: F�rmula del M�todo de Euler</h4>
+        <h4>Paso 1: Método de Euler - Fórmula General</h4>
+        <p>El método de Euler es un método numérico de primer orden para resolver ecuaciones diferenciales ordinarias de la forma dy/dx = f(x, y):</p>
         <p>$$y_{n+1} = y_n + h \\cdot f(x_n, y_n)$$</p>
-        <p>donde:</p>
         <p>$$x_{n+1} = x_n + h$$</p>
+        <p style="margin-top: 12px; font-size: 0.95em; color: var(--gris-texto);">donde h es el tamaño de paso</p>
       </div>
 
       <div class="paso-desarrollo">
-        <h4>Paso 2: Par�metros Iniciales</h4>
-        <p>Ecuaci�n diferencial: $$\\frac{dy}{dx} = ${r.expresion}$$</p>
-        <p>Condici�n inicial: $$x_0 = ${this.formatear(r.x0)}, \\quad y_0 = ${this.formatear(r.y0)}$$</p>
-        <p>Tama�o de paso: $$h = ${this.formatear(r.h)}$$</p>
+        <h4>Paso 2: Ecuación Diferencial y Condiciones Iniciales</h4>
+        <p><strong>Ecuación diferencial:</strong></p>
+        <p>$$\\frac{dy}{dx} = ${r.expresion}$$</p>
+        <p style="margin-top: 12px;"><strong>Condición inicial:</strong></p>
+        <p>$$x_0 = ${this.formatear(r.x0)}, \\quad y_0 = ${this.formatear(r.y0)}$$</p>
+        <p style="margin-top: 12px;"><strong>Tamaño de paso:</strong></p>
+        <p>$$h = ${this.formatear(r.h)}$$</p>
       </div>
 
       <div class="paso-desarrollo">
-        <h4>Paso 3: Iteraciones del M�todo</h4>
+        <h4>Paso 3: Cálculo Iterativo Paso a Paso</h4>
+        <p style="margin-bottom: 15px; color: var(--gris-texto);">Se aplica recursivamente la fórmula de Euler:</p>
     `;
 
     r.puntos.forEach((p, idx) => {
       if (idx < r.puntos.length - 1) {
         const p_siguiente = r.puntos[idx + 1];
         latex += `
-          <p style="margin: 12px 0; padding: 8px; background: #f0f9ff; border-left: 3px solid var(--azul-oscuro);">
-            <strong>Iteraci�n ${idx}:</strong>
-            $$y_{${idx + 1}} = ${this.formatear(p.y)} + ${this.formatear(r.h)} \\times ${this.formatear(p.f_x_y)} = ${this.formatear(p_siguiente.y)}$$
+          <p style="margin: 12px 0; padding: 12px; background: #f0f9ff; border-left: 4px solid #1e40af; border-radius: 4px;">
+            <strong>Iteración ${idx + 1}:</strong><br>
+            $$f(${this.formatear(p.x)}, ${this.formatear(p.y)}) = ${this.formatear(p.f_x_y)}$$<br>
+            $$y_{${idx + 1}} = ${this.formatear(p.y)} + ${this.formatear(r.h)} \\times ${this.formatear(p.f_x_y)} = ${this.formatear(p_siguiente.y)}$$<br>
+            $$x_{${idx + 1}} = ${this.formatear(p.x)} + ${this.formatear(r.h)} = ${this.formatear(p_siguiente.x)}$$
           </p>
         `;
       }
     });
 
     latex += `
-        </div>
+      </div>
 
-        <div class="resultado-final">
-          <strong>Resultado Final:</strong>
-          <p>Se han calculado ${r.n} puntos de la soluci�n num�rica</p>
-        </div>
+      <div class="paso-desarrollo">
+        <h4>Paso 4: Tabla Resumen de Aproximación</h4>
+        <table class="tabla-desarrollo">
+          <thead>
+            <tr>
+              <th>n</th>
+              <th>x<sub>n</sub></th>
+              <th>y<sub>n</sub></th>
+              <th>f(x<sub>n</sub>, y<sub>n</sub>)</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    r.puntos.forEach(p => {
+      latex += `
+        <tr>
+          <td>${p.i}</td>
+          <td>${this.formatear(p.x)}</td>
+          <td>${this.formatear(p.y)}</td>
+          <td>${this.formatear(p.f_x_y)}</td>
+        </tr>
+      `;
+    });
+
+    latex += `
+          </tbody>
+        </table>
+      </div>
+
+      <div class="resultado-final">
+        <strong>Solución Numérica Aproximada:</strong>
+        <p>Se han calculado ${r.n} puntos de la solución aproximada usando el Método de Euler con h = ${this.formatear(r.h)}</p>
+      </div>
     `;
 
     document.getElementById('contenedorDesarrollo').innerHTML = latex;
@@ -229,13 +265,13 @@ const App = {
       x: r.puntos.map(p => p.x),
       y: r.puntos.map(p => p.y),
       mode: 'lines+markers',
-      name: 'Soluci�n aproximada',
+      name: 'Solución aproximada',
       line: { color: '#1e40af', width: 2 },
       marker: { size: 6, color: '#dc2626' }
     };
 
     const titulo = document.getElementById('tituloExperimento').value ||
-                   `M�todo de Euler: dy/dx = ${r.expresion}`;
+                   `Método de Euler: dy/dx = ${r.expresion}`;
 
     const layout = {
       title: {
@@ -281,7 +317,7 @@ const App = {
 
   alternarPasos() {
     if (!this.estado.resultado) {
-      alert('Primero calcula la soluci�n');
+      alert('Primero calcula la solución');
       return;
     }
 
