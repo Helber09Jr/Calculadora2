@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mínimos Cuadrados - Calculadora ESIS</title>
+<title>Ajuste Polinomial - Mínimos Cuadrados - Calculadora ESIS</title>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="contenedor-titulo">
-      <h2 class="titulo-proyecto">MÉTODO DE MÍNIMOS CUADRADOS</h2>
+      <h2 class="titulo-proyecto">AJUSTE POLINOMIAL - MÍNIMOS CUADRADOS</h2>
     </div>
   </div>
 
@@ -45,13 +45,13 @@
     <div class="seccion-panel">
       <div class="titulo-seccion">Experimento</div>
       <label class="etiqueta-pequena">Título del experimento</label>
-      <input id="tituloExperimento" type="text" placeholder="Ej: Distancia de frenado">
+      <input id="tituloExperimento" type="text" placeholder="Ej: Velocidad vs Distancia">
     </div>
 
     <div class="seccion-panel">
       <div class="titulo-seccion">Puntos de Datos</div>
       <div class="texto-pequeno-gris">Ingrese valores numéricos. Use + para añadir fila, X para borrar.</div>
-      
+
       <div class="encabezados-tabla">
         <div class="grupo-encabezado">
           <label class="etiqueta-pequena">Eje X</label>
@@ -78,7 +78,7 @@
           </table>
         </div>
       </div>
-      
+
       <div class="controles-tabla">
         <button class="boton-esis primario" id="btnAgregarFila">Agregar fila</button>
         <button class="boton-esis secundario" id="btnLimpiarTodo">Limpiar todo</button>
@@ -87,16 +87,20 @@
 
     <div class="seccion-panel">
       <div class="titulo-seccion">Configuración</div>
-      <label class="etiqueta-pequena">Grado del polinomio</label>
-      <select id="gradoPolinomio">
-        <option value="1">Grado 1 (Lineal)</option>
-        <option value="2" selected>Grado 2 (Cuadrático)</option>
-        <option value="3">Grado 3 (Cúbico)</option>
+      <label class="etiqueta-pequena">Grado del polinomio (m)</label>
+      <select id="selectGrado">
+        <option value="1">1 - Lineal (recta)</option>
+        <option value="2" selected>2 - Cuadrático (parábola)</option>
+        <option value="3">3 - Cúbico</option>
+        <option value="4">4 - Cuártico</option>
+        <option value="5">5 - Quíntico</option>
       </select>
-      
-      <label class="etiqueta-pequena" style="margin-top:12px">Predecir en x =</label>
-      <input id="inputXPredecir" type="number" step="any" value="25">
-      
+    </div>
+
+    <div class="seccion-panel">
+      <div class="titulo-seccion">Evaluación</div>
+      <label class="etiqueta-pequena">Evaluar en x =</label>
+      <input id="inputXEvaluar" type="number" step="any" value="25">
       <div class="controles" style="margin-top:10px">
         <button class="boton-esis primario" id="btnCalcular">Calcular</button>
         <button class="boton-esis secundario" id="btnEjemplo">Cargar Ejemplo</button>
@@ -109,7 +113,7 @@
       <div class="encabezado-tarjeta">
         <div>
           <div class="titulo-tarjeta">Gráfico Interactivo</div>
-          <div class="texto-pequeno-gris">Puntos experimentales (rojo) y curva de ajuste (azul)</div>
+          <div class="texto-pequeno-gris">Puntos (rojo), Curva de ajuste (azul), Evaluación (verde)</div>
         </div>
       </div>
       <div id="graficoMinimos"></div>
@@ -119,7 +123,7 @@
       <div class="encabezado-tarjeta">
         <div>
           <div class="titulo-tarjeta">Resultado</div>
-          <div class="texto-pequeno-gris">Ecuación de ajuste y predicción</div>
+          <div class="texto-pequeno-gris">Coeficientes y error cuadrático</div>
         </div>
         <div class="acciones-inferior">
           <button id="btnTogglePasos" class="boton-toggle">Abrir desarrollo</button>
@@ -131,7 +135,7 @@
     <section id="seccionDesarrollo" class="tarjeta-esis oculto" aria-hidden="true">
       <div class="encabezado-tarjeta">
         <div class="titulo-tarjeta">Desarrollo Completo</div>
-        <div class="texto-pequeno-gris">Sumatorias, sistema de ecuaciones y cálculos paso a paso</div>
+        <div class="texto-pequeno-gris">Matrices y cálculos paso a paso</div>
       </div>
       <div id="contenedorDesarrollo"></div>
     </section>
