@@ -36,16 +36,20 @@ const App = {
 
     fila.querySelector('.boton-eliminar').onclick = () => {
       fila.remove();
-      this.actualizarIndices();
+      this.renumerarFilas();
+      this.leerPuntos();
     };
+
+    fila.querySelector('.input-x').oninput = () => this.leerPuntos();
+    fila.querySelector('.input-y').oninput = () => this.leerPuntos();
 
     tbody.appendChild(fila);
   },
 
-  actualizarIndices() {
+  renumerarFilas() {
     const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
     filas.forEach((fila, i) => {
-      fila.cells[0].textContent = i;
+      fila.firstElementChild.textContent = i;
     });
   },
 
@@ -53,8 +57,14 @@ const App = {
     const tbody = document.getElementById('cuerpoTablaPuntos');
     tbody.innerHTML = '';
 
-    for (let i = 0; i < 4; i++) {
-      this.agregarFila();
+    if (this.estado.puntos.length === 0) {
+      for (let i = 0; i < 4; i++) {
+        this.agregarFila();
+      }
+    } else {
+      this.estado.puntos.forEach(p => {
+        this.agregarFila(p.x !== null ? p.x : '', p.y !== null ? p.y : '');
+      });
     }
   },
 
