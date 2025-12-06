@@ -125,21 +125,17 @@ const App = {
     this.leerPuntos();
     this.quitarValidacionVisual();
 
-    const puntosValidos = this.estado.puntos.filter(p => p.x !== null && p.y !== null);
+    const puntosValidos = this.estado.puntos.filter(p =>
+      p.x !== null && !isNaN(p.x) && p.y !== null && !isNaN(p.y)
+    );
 
     if (puntosValidos.length < 2) {
-      alert('Se necesitan al menos 2 puntos válidos');
-      return false;
+      throw new Error('Se necesitan al menos 2 puntos válidos');
     }
 
-    const xs = puntosValidos.map(p => p.x);
-    const xsUnicos = new Set(xs);
-    if (xs.length !== xsUnicos.size) {
-      alert('No puede haber valores de x repetidos');
-      return false;
-    }
-
+    const valoresX = puntosValidos.map(p => p.x);
     const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
+
     filas.forEach((fila, i) => {
       const inputX = fila.querySelector('.input-x');
       const inputY = fila.querySelector('.input-y');
@@ -154,24 +150,26 @@ const App = {
       if (punto.y === null || isNaN(punto.y)) {
         inputY.classList.add('campo-invalido');
       }
+
+      const duplicados = valoresX.filter(x => x === punto.x).length > 1;
+      if (duplicados && !isNaN(punto.x) && punto.x !== null) {
+        inputX.classList.add('campo-invalido');
+        throw new Error(`Valor X duplicado: ${punto.x}`);
+      }
     });
 
     return puntosValidos;
   },
 
   calcular() {
-    const puntosValidos = this.validar();
-    if (!puntosValidos) return;
-
-    const puntos = puntosValidos.sort((a, b) => a.x - b.x);
-    const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
-
-    if (isNaN(xEval)) {
-      alert('Ingrese un valor válido para x');
-      return;
-    }
-
     try {
+      const puntos = this.validar();
+      const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
+
+      if (isNaN(xEval)) {
+        throw new Error('El valor de x a evaluar debe ser un número válido');
+      }
+
       const tabla = this.calcularDiferenciasDivididas(puntos);
       const coeficientes = tabla[0];
       const resultado = this.evaluarNewton(coeficientes, puntos.map(p => p.x), xEval);

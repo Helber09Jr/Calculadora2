@@ -126,11 +126,12 @@ const App = {
     this.leerPuntos();
     this.quitarValidacionVisual();
 
-    const puntosValidos = this.estado.puntos.filter(p => p.x !== null && p.y !== null);
+    const puntosValidos = this.estado.puntos.filter(p =>
+      p.x !== null && !isNaN(p.x) && p.y !== null && !isNaN(p.y)
+    );
 
     if (puntosValidos.length < 2) {
-      alert('Se necesitan al menos 2 puntos válidos');
-      return false;
+      throw new Error('Se necesitan al menos 2 puntos válidos');
     }
 
     const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
@@ -154,24 +155,19 @@ const App = {
   },
 
   calcular() {
-    const puntosValidos = this.validar();
-    if (!puntosValidos) return;
-
-    const puntos = puntosValidos.sort((a, b) => a.x - b.x);
-    const grado = parseInt(document.getElementById('selectGrado').value);
-    const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
-
-    if (isNaN(xEval)) {
-      alert('Ingrese un valor válido para x');
-      return;
-    }
-
-    if (grado >= puntos.length) {
-      alert(`Para grado ${grado} se necesitan al menos ${grado + 1} puntos`);
-      return;
-    }
-
     try {
+      const puntos = this.validar();
+      const grado = parseInt(document.getElementById('selectGrado').value);
+      const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
+
+      if (isNaN(xEval)) {
+        throw new Error('El valor de x a evaluar debe ser un número válido');
+      }
+
+      if (grado >= puntos.length) {
+        throw new Error(`Para grado ${grado} se necesitan al menos ${grado + 1} puntos`);
+      }
+
       const A = this.construirMatrizA(puntos, grado);
       const At = this.transponer(A);
       const M = this.multiplicarMatrices(At, A);
