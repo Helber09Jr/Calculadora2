@@ -16,7 +16,7 @@ const App = {
   },
 
   limpiarTodo() {
-    if (confirm('øEst·s seguro de limpiar todos los datos?')) {
+    if (confirm('¬øEst√°s seguro de limpiar todos los datos?')) {
       this.estado.resultado = null;
       document.getElementById('tituloExperimento').value = '';
       document.getElementById('inputFuncion').value = 'x**2';
@@ -44,7 +44,7 @@ const App = {
       const func = new Function('x', `return ${expresion}`);
       return func(x);
     } catch (error) {
-      throw new Error(`Error en la expresiÛn: ${expresion}`);
+      throw new Error(`Error en la expresi√≥n: ${expresion}`);
     }
   },
 
@@ -56,19 +56,19 @@ const App = {
     const metodo = document.getElementById('selectMetodo').value;
 
     if (!expresion) {
-      throw new Error('Debe ingresar una funciÛn f(x)');
+      throw new Error('Debe ingresar una funci√≥n f(x)');
     }
 
     if (isNaN(a)) {
-      throw new Error('El lÌmite inferior a debe ser un n˙mero v·lido');
+      throw new Error('El l√≠mite inferior a debe ser un n√∫mero v√°lido');
     }
 
     if (isNaN(b)) {
-      throw new Error('El lÌmite superior b debe ser un n˙mero v·lido');
+      throw new Error('El l√≠mite superior b debe ser un n√∫mero v√°lido');
     }
 
     if (a >= b) {
-      throw new Error('El lÌmite inferior a debe ser menor que el lÌmite superior b');
+      throw new Error('El l√≠mite inferior a debe ser menor que el l√≠mite superior b');
     }
 
     if (isNaN(n) || n < 2) {
@@ -76,11 +76,11 @@ const App = {
     }
 
     if (metodo === '13' && n % 2 !== 0) {
-      throw new Error('Simpson 1/3 requiere un n˙mero par de intervalos');
+      throw new Error('Simpson 1/3 requiere un n√∫mero par de intervalos');
     }
 
     if (metodo === '38' && n % 3 !== 0) {
-      throw new Error('Simpson 3/8 requiere un n˙mero m˙ltiplo de 3');
+      throw new Error('Simpson 3/8 requiere un n√∫mero m√∫ltiplo de 3');
     }
 
     try {
@@ -159,7 +159,7 @@ const App = {
       this.mostrarDesarrollo();
       this.graficar();
 
-      alert(`Integral calculada correctamente: H ${this.formatear(resultado.integral)}`);
+      alert(`Integral calculada correctamente: aproximadamente ${this.formatear(resultado.integral)}`);
 
     } catch (error) {
       alert('Error: ' + error.message);
@@ -180,14 +180,14 @@ const App = {
     let html = `
       <div class="resultado-principal">
         <p class="etiqueta-resultado">Integral a calcular:</p>
-        <p style="font-family: monospace; background: var(--gris-claro); padding: 8px; border-radius: 4px;">+<sub>${this.formatear(r.a)}</sub><sup>${this.formatear(r.b)}</sup> (${r.expresion}) dx</p>
-        <p class="etiqueta-resultado" style="margin-top: 12px;">MÈtodo utilizado: ${r.metodo}</p>
-        <p style="color: var(--gris-texto); font-size: 0.9em;">Intervalos: ${r.n}, TamaÒo de paso h = ${this.formatear(r.h)}</p>
+        <p style="font-family: monospace; background: var(--gris-claro); padding: 8px; border-radius: 4px;">‚à´<sub>${this.formatear(r.a)}</sub><sup>${this.formatear(r.b)}</sup> (${r.expresion}) dx</p>
+        <p class="etiqueta-resultado" style="margin-top: 12px;">M√©todo utilizado: <strong>${r.metodo}</strong></p>
+        <p style="color: var(--gris-texto); font-size: 0.9em;">Intervalos: n = ${r.n}, Tama√±o de paso: h = ${this.formatear(r.h)}</p>
       </div>
 
       <div class="resultado-evaluacion" style="margin-top: 20px;">
         <p class="etiqueta-resultado">Resultado de la integral:</p>
-        <p class="valor-resultado" style="font-size: 1.5em; color: var(--verde-exito);">+ H ${this.formatear(r.integral)}</p>
+        <p class="valor-resultado" style="font-size: 1.5em; color: var(--verde-exito);">‚à´ ‚âà ${this.formatear(r.integral)}</p>
       </div>
 
       <table class="tabla-resultados" style="margin-top: 20px;">
@@ -221,23 +221,26 @@ const App = {
     const r = this.estado.resultado;
     if (!r) return;
 
-    const nombreFormula = r.metodo === 'Simpson 1/3' ?
-      '\\frac{h}{3}' : '\\frac{3h}{8}';
-
     let latex = `
       <div class="paso-desarrollo">
-        <h4>Paso 1: FÛrmula de ${r.metodo}</h4>
+        <h4>Paso 1: F√≥rmula de ${r.metodo}</h4>
     `;
 
     if (r.metodo === 'Simpson 1/3') {
       latex += `
+        <p>La regla de Simpson 1/3 aproxima una integral usando par√°bolas:</p>
         <p>$$\\int_a^b f(x)dx \\approx \\frac{h}{3}[f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + ... + 4f(x_{n-1}) + f(x_n)]$$</p>
-        <p>donde n debe ser par y $$h = \\frac{b-a}{n}$$</p>
+        <p style="margin-top: 12px; color: var(--gris-texto);">donde:</p>
+        <p>$$h = \\frac{b-a}{n}, \\quad n \\text{ es par}$$</p>
+        <p style="margin-top: 12px; font-size: 0.9em; color: var(--gris-texto);">Los coeficientes siguen el patr√≥n: 1, 4, 2, 4, 2, ..., 4, 1</p>
       `;
     } else {
       latex += `
+        <p>La regla de Simpson 3/8 aproxima una integral usando polinomios c√∫bicos:</p>
         <p>$$\\int_a^b f(x)dx \\approx \\frac{3h}{8}[f(x_0) + 3f(x_1) + 3f(x_2) + 2f(x_3) + ... + 3f(x_{n-1}) + f(x_n)]$$</p>
-        <p>donde n debe ser m˙ltiplo de 3 y $$h = \\frac{b-a}{n}$$</p>
+        <p style="margin-top: 12px; color: var(--gris-texto);">donde:</p>
+        <p>$$h = \\frac{b-a}{n}, \\quad n \\text{ es m√∫ltiplo de 3}$$</p>
+        <p style="margin-top: 12px; font-size: 0.9em; color: var(--gris-texto);">Los coeficientes siguen el patr√≥n: 1, 3, 3, 2, 3, 3, 2, ..., 3, 1</p>
       `;
     }
 
@@ -245,34 +248,72 @@ const App = {
       </div>
 
       <div class="paso-desarrollo">
-        <h4>Paso 2: Par·metros</h4>
-        <p>FunciÛn: $$f(x) = ${r.expresion}$$</p>
-        <p>LÌmites: $$a = ${this.formatear(r.a)}, \\quad b = ${this.formatear(r.b)}$$</p>
-        <p>Intervalos: $$n = ${r.n}, \\quad h = \\frac{${this.formatear(r.b)} - ${this.formatear(r.a)}}{${r.n}} = ${this.formatear(r.h)}$$</p>
+        <h4>Paso 2: Par√°metros de Integraci√≥n</h4>
+        <p><strong>Funci√≥n a integrar:</strong></p>
+        <p>$$f(x) = ${r.expresion}$$</p>
+        <p style="margin-top: 12px;"><strong>L√≠mites de integraci√≥n:</strong></p>
+        <p>$$a = ${this.formatear(r.a)}, \\quad b = ${this.formatear(r.b)}$$</p>
+        <p style="margin-top: 12px;"><strong>Tama√±o de paso:</strong></p>
+        <p>$$h = \\frac{${this.formatear(r.b)} - ${this.formatear(r.a)}}{${r.n}} = ${this.formatear(r.h)}$$</p>
       </div>
 
       <div class="paso-desarrollo">
-        <h4>Paso 3: EvaluaciÛn y Suma</h4>
-        <p style="margin: 12px 0;">Suma ponderada de valores:</p>
+        <h4>Paso 3: Evaluaci√≥n de la Funci√≥n en los Puntos</h4>
+        <p style="margin-bottom: 15px; color: var(--gris-texto);">Se eval√∫a f(x) en cada punto de la partici√≥n:</p>
+        <table class="tabla-desarrollo">
+          <thead>
+            <tr>
+              <th>i</th>
+              <th>x<sub>i</sub></th>
+              <th>f(x<sub>i</sub>)</th>
+              <th>Coeficiente c<sub>i</sub></th>
+            </tr>
+          </thead>
+          <tbody>
     `;
 
-    let sumaLaTeX = '';
     r.puntos.forEach((p, i) => {
-      if (i > 0 && i % 5 === 0) sumaLaTeX += ' \\\\\\n+ ';
-      sumaLaTeX += `${p.coef} \\cdot ${this.formatear(p.y)}`;
-      if (i < r.puntos.length - 1) sumaLaTeX += ' + ';
+      latex += `
+        <tr>
+          <td>${i}</td>
+          <td>${this.formatear(p.x)}</td>
+          <td>${this.formatear(p.y)}</td>
+          <td>${p.coef}</td>
+        </tr>
+      `;
     });
 
-    latex += `<p class="linea-calculo">$$${sumaLaTeX}$$</p>`;
+    latex += `
+          </tbody>
+        </table>
+      </div>
+
+      <div class="paso-desarrollo">
+        <h4>Paso 4: C√°lculo de la Suma Ponderada</h4>
+        <p style="margin-bottom: 12px;">Se calcula:</p>
+    `;
+
+    let sumaTexto = 'S = ';
+    r.puntos.forEach((p, i) => {
+      sumaTexto += `${p.coef} \\times ${this.formatear(p.y)}`;
+      if (i < r.puntos.length - 1) sumaTexto += ' + ';
+    });
 
     latex += `
-        <p style="margin-top: 12px;">C·lculo de la integral:</p>
-        <p class="linea-calculo">$$\\int \\approx ${nombreFormula} \\times (${sumaLaTeX.replace(/\s\+\s/g, ' + ').substring(0, 40)}...) = ${this.formatear(r.integral)}$$</p>
+        <p class="linea-calculo">$$${sumaTexto}$$</p>
+    `;
+
+    const metodoCoef = r.metodo === 'Simpson 1/3' ? '\\frac{h}{3}' : '\\frac{3h}{8}';
+
+    latex += `
+        <p style="margin-top: 12px;">Finalmente:</p>
+        <p class="linea-calculo">$$\\int \\approx ${metodoCoef} \\times S = ${metodoCoef} \\times (\\text{suma}) = ${this.formatear(r.integral)}$$</p>
       </div>
 
       <div class="resultado-final">
         <strong>Resultado Final:</strong>
         <p>$$\\int_{${this.formatear(r.a)}}^{${this.formatear(r.b)}} ${r.expresion} \\, dx \\approx ${this.formatear(r.integral)}$$</p>
+        <p style="margin-top: 12px; color: var(--gris-texto); font-size: 0.9em;">Aproximaci√≥n mediante ${r.metodo} con ${r.n} intervalos</p>
       </div>
     `;
 
@@ -287,7 +328,6 @@ const App = {
     const r = this.estado.resultado;
     if (!r) return;
 
-    // Generar puntos de la funciÛn para la curva
     const numPuntos = 200;
     const xs = [];
     const ys = [];
@@ -298,28 +338,26 @@ const App = {
       ys.push(this.evaluarFuncion(r.expresion, x));
     }
 
-    // Traza de la funciÛn
     const trazaFuncion = {
       x: xs,
       y: ys,
       mode: 'lines',
-      name: r.expresion,
+      name: `f(x) = ${r.expresion}`,
       line: { color: '#1e40af', width: 2 },
       fill: 'tozeroy',
       fillcolor: 'rgba(30, 64, 175, 0.2)'
     };
 
-    // Puntos de Simpson
     const trazaPuntos = {
       x: r.puntos.map(p => p.x),
       y: r.puntos.map(p => p.y),
       mode: 'markers',
-      name: 'Puntos de evaluaciÛn',
+      name: 'Puntos de evaluaci√≥n',
       marker: { size: 6, color: '#dc2626' }
     };
 
     const titulo = document.getElementById('tituloExperimento').value ||
-                   `Integral: + ${r.expresion} dx`;
+                   `Integral: ‚à´ ${r.expresion} dx`;
 
     const layout = {
       title: {
@@ -329,15 +367,27 @@ const App = {
       xaxis: {
         title: { text: 'x', font: { size: 14, color: '#475569' } },
         gridcolor: '#e2e8f0',
-        showgrid: true
+        showgrid: true,
+        zeroline: true,
+        zerolinecolor: '#94a3b8'
       },
       yaxis: {
         title: { text: 'f(x)', font: { size: 14, color: '#475569' } },
         gridcolor: '#e2e8f0',
-        showgrid: true
+        showgrid: true,
+        zeroline: true,
+        zerolinecolor: '#94a3b8'
       },
       plot_bgcolor: '#ffffff',
       paper_bgcolor: '#ffffff',
+      showlegend: true,
+      legend: {
+        x: 1, y: 1,
+        xanchor: 'right', yanchor: 'top',
+        bgcolor: 'rgba(255, 255, 255, 0.9)',
+        bordercolor: '#cbd5e1',
+        borderwidth: 1
+      },
       margin: { l: 70, r: 40, t: 80, b: 60 },
       hovermode: 'closest'
     };
@@ -377,7 +427,7 @@ const App = {
   },
 
   cargarEjemplo() {
-    document.getElementById('tituloExperimento').value = '¡rea bajo la par·bola';
+    document.getElementById('tituloExperimento').value = '√Årea bajo la par√°bola';
     document.getElementById('inputFuncion').value = 'x**2';
     document.getElementById('inputA').value = '0';
     document.getElementById('inputB').value = '1';
