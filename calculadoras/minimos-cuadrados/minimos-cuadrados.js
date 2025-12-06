@@ -36,16 +36,20 @@ const App = {
 
     fila.querySelector('.boton-eliminar').onclick = () => {
       fila.remove();
-      this.actualizarIndices();
+      this.renumerarFilas();
+      this.leerPuntos();
     };
+
+    fila.querySelector('.input-x').oninput = () => this.leerPuntos();
+    fila.querySelector('.input-y').oninput = () => this.leerPuntos();
 
     tbody.appendChild(fila);
   },
 
-  actualizarIndices() {
+  renumerarFilas() {
     const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
     filas.forEach((fila, i) => {
-      fila.cells[0].textContent = i;
+      fila.firstElementChild.textContent = i;
     });
   },
 
@@ -53,8 +57,14 @@ const App = {
     const tbody = document.getElementById('cuerpoTablaPuntos');
     tbody.innerHTML = '';
 
-    for (let i = 0; i < 4; i++) {
-      this.agregarFila();
+    if (this.estado.puntos.length === 0) {
+      for (let i = 0; i < 4; i++) {
+        this.agregarFila();
+      }
+    } else {
+      this.estado.puntos.forEach(p => {
+        this.agregarFila(p.x !== null ? p.x : '', p.y !== null ? p.y : '');
+      });
     }
   },
 
@@ -67,7 +77,7 @@ const App = {
   },
 
   limpiarTodo() {
-    if (confirm('Estas seguro de limpiar todos los datos?')) {
+    if (confirm('¿Estás seguro de limpiar todos los datos?')) {
       this.estado.puntos = [];
       this.estado.resultado = null;
       this.renderizarTabla();
@@ -116,11 +126,12 @@ const App = {
     this.leerPuntos();
     this.quitarValidacionVisual();
 
-    const puntosValidos = this.estado.puntos.filter(p => p.x !== null && p.y !== null);
+    const puntosValidos = this.estado.puntos.filter(p =>
+      p.x !== null && !isNaN(p.x) && p.y !== null && !isNaN(p.y)
+    );
 
     if (puntosValidos.length < 2) {
-      alert('Se necesitan al menos 2 puntos validos');
-      return false;
+      throw new Error('Se necesitan al menos 2 puntos válidos');
     }
 
     const filas = document.querySelectorAll('#cuerpoTablaPuntos tr');
@@ -144,24 +155,19 @@ const App = {
   },
 
   calcular() {
-    const puntosValidos = this.validar();
-    if (!puntosValidos) return;
-
-    const puntos = puntosValidos.sort((a, b) => a.x - b.x);
-    const grado = parseInt(document.getElementById('selectGrado').value);
-    const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
-
-    if (isNaN(xEval)) {
-      alert('Ingrese un valor valido para x');
-      return;
-    }
-
-    if (grado >= puntos.length) {
-      alert(`Para grado ${grado} se necesitan al menos ${grado + 1} puntos`);
-      return;
-    }
-
     try {
+      const puntos = this.validar();
+      const grado = parseInt(document.getElementById('selectGrado').value);
+      const xEval = parseFloat(document.getElementById('inputXEvaluar').value);
+
+      if (isNaN(xEval)) {
+        throw new Error('El valor de x a evaluar debe ser un número válido');
+      }
+
+      if (grado >= puntos.length) {
+        throw new Error(`Para grado ${grado} se necesitan al menos ${grado + 1} puntos`);
+      }
+
       const A = this.construirMatrizA(puntos, grado);
       const At = this.transponer(A);
       const M = this.multiplicarMatrices(At, A);
@@ -337,12 +343,12 @@ const App = {
       </div>
 
       <div class="resultado-evaluacion">
-        <p class="etiqueta-resultado">Evaluacion en x = ${this.formatear(r.xEval)}:</p>
+        <p class="etiqueta-resultado">Evaluación en x = ${this.formatear(r.xEval)}:</p>
         <p class="valor-resultado">P(${this.formatear(r.xEval)}) = ${this.formatear(r.resultado)}</p>
       </div>
 
       <div class="resultado-error">
-        <p class="etiqueta-resultado">Error cuadratico total:</p>
+        <p class="etiqueta-resultado">Error cuadrático total:</p>
         <p class="valor-error">E = ${this.formatear(r.errorCuadratico)}</p>
       </div>
     `;
@@ -534,7 +540,7 @@ const App = {
 
     latex += `
       <div class="paso-desarrollo">
-        <h4>Paso 5: Error Cuadratico</h4>
+        <h4>Paso 5: Error cuadrático</h4>
         <p>$$E = \\sum_{i=0}^{${r.puntos.length-1}} [${nombreY}_i - P(${nombreX}_i)]^2$$</p>
     `;
 
@@ -721,7 +727,7 @@ const App = {
 
   alternarMenu() {
     const menu = document.getElementById('menuNavegacion');
-    menu.classList.toggle('activo');
+    menu.classList.toggle('menu-activo');
   },
 
   cargarEjemplo() {

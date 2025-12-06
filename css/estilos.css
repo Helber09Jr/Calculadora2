@@ -1,13 +1,27 @@
 :root {
+  /* Colores principales ESIS */
   --azul-oscuro: #002855;
   --azul-medio: #004080;
   --dorado: #ffb703;
+
+  /* Colores de estado */
   --verde-exito: #10b981;
   --rojo-error: #ef4444;
   --amarillo-advertencia: #f59e0b;
+
+  /* Escala de grises */
   --gris-claro: #f8f9fa;
   --gris-medio: #e9ecef;
+  --gris-texto: #6b7280;
+  --gris-borde: #e0e5f2;
+
+  /* Elementos principales */
   --texto-principal: #1a1a1a;
+  --blanco: #ffffff;
+
+  /* Estilos de componentes */
+  --sombra-card: 0 4px 10px rgba(0, 40, 85, 0.08);
+  --radio-card: 15px;
 }
 
 * {

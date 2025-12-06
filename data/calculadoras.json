@@ -29,22 +29,19 @@
         "nombre": "Método del Trapecio",
         "descripcion": "Aproximación de integrales definidas mediante la suma de áreas de trapecios.",
         "link": "calculadoras/trapecio/trapecio.html",
-        "imagen": "imagenes/calculadoras/trapecio.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/trapecio.png"
       },
       {
         "nombre": "Método de Simpson",
-        "descripcion": "Integración numérica de mayor precisión usando aproximaciones parabólicas.",
+        "descripcion": "Integración numérica de mayor precisión usando aproximaciones parabólicas (1/3 y 3/8).",
         "link": "calculadoras/simpson/simpson.html",
-        "imagen": "imagenes/calculadoras/simpson.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/simpson.png"
       },
       {
         "nombre": "Método de Euler",
         "descripcion": "Solución numérica de ecuaciones diferenciales ordinarias mediante aproximación lineal.",
         "link": "calculadoras/euler/euler.html",
-        "imagen": "imagenes/calculadoras/euler.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/euler.png"
       },
       {
         "nombre": "Método de Taylor",
