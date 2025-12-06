@@ -47,22 +47,19 @@
         "nombre": "Método de Taylor",
         "descripcion": "Resolución de EDO usando expansión en serie de Taylor para mayor precisión.",
         "link": "calculadoras/taylor/taylor.html",
-        "imagen": "imagenes/calculadoras/taylor.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/taylor.png"
       },
       {
         "nombre": "Runge-Kutta Orden 2 (RK2)",
         "descripcion": "Método de segundo orden para resolver EDO con mejor precisión que Euler.",
         "link": "calculadoras/runge-kutta-2/rk2.html",
-        "imagen": "imagenes/calculadoras/rk2.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/rk2.png"
       },
       {
         "nombre": "Runge-Kutta Orden 4 (RK4)",
         "descripcion": "Método de cuarto orden ampliamente usado por su excelente balance entre precisión y eficiencia.",
         "link": "calculadoras/runge-kutta-4/rk4.html",
-        "imagen": "imagenes/calculadoras/rk4.png",
-        "estado": "desarrollo"
+        "imagen": "imagenes/calculadoras/rk4.png"
       }
     ]
   }
